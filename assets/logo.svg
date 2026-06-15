@@ -2,105 +2,109 @@
   <defs>
     <!-- Vibrant Orange Gradient for J, road, and framing -->
     <linearGradient id="orangeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#ff9d42" />
-      <stop offset="60%" stop-color="#ff6a00" />
-      <stop offset="100%" stop-color="#d65200" />
+      <stop offset="0%" stop-color="#ffb057" />
+      <stop offset="50%" stop-color="#ff6a00" />
+      <stop offset="100%" stop-color="#cc5200" />
     </linearGradient>
 
-    <!-- Silver-White Gradient for K and R -->
+    <!-- Silver-White Metallic Gradient for K and R -->
     <linearGradient id="silverGrad" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#ffffff" />
-      <stop offset="50%" stop-color="#f3f4f6" />
+      <stop offset="60%" stop-color="#e5e7eb" />
       <stop offset="100%" stop-color="#9ca3af" />
     </linearGradient>
 
-    <!-- Glowing effect for orange elements -->
-    <filter id="orangeGlow" x="-20%" y="-20%" width="140%" height="140%">
-      <feGaussianBlur stdDeviation="3" result="blur" />
-      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    <!-- Dark Shadow Gradient for Fold crease -->
+    <linearGradient id="shadowGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b0f19" stop-opacity="0.85" />
+      <stop offset="100%" stop-color="#0b0f19" stop-opacity="0.0" />
+    </linearGradient>
+
+    <!-- Drop Shadow Filter for Letters to create 3D lift -->
+    <filter id="dropShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="3" dy="4" stdDeviation="3.5" flood-color="#000000" flood-opacity="0.8" />
     </filter>
   </defs>
 
-  <!-- BACKGROUND: Transparent, matches dark theme -->
   <g id="kjr-logo-mark">
-    <!-- 1. BUILDING WIREFRAME (LEFT) -->
+    <!-- 1. SWEEPING ROAD (BOTTOM) - Rendered behind letters -->
+    <g id="sweeping-road">
+      <!-- Curved Road Body (3 Orange Lanes) -->
+      <path d="M 25,123 C 65,145 130,147 210,123" stroke="url(#orangeGrad)" stroke-width="4.5" fill="none" stroke-linecap="round" />
+      <path d="M 25,127 C 65,150 130,152 195,128" stroke="url(#orangeGrad)" stroke-width="2.5" fill="none" stroke-linecap="round" />
+      <path d="M 25,131 C 65,155 130,157 180,133" stroke="url(#orangeGrad)" stroke-width="1.2" fill="none" stroke-linecap="round" />
+      
+      <!-- Perspective Lane Dashes (Black/transparent overlay) -->
+      <path d="M 30,125 C 65,147 130,149 200,125" stroke="#07090e" stroke-width="1.5" stroke-dasharray="3, 8" fill="none" stroke-linecap="round" opacity="0.7" />
+    </g>
+
+    <!-- 2. BUILDING WIREFRAME (LEFT) -->
     <!-- Glowing internal orange windows (the cubes) -->
     <g id="building-glowing-windows" fill="url(#orangeGrad)" opacity="0.95">
-      <!-- Row 1 (Bottom) -->
       <path d="M 60,112 L 80,103 L 80,121 L 60,128 Z" />
       <path d="M 80,103 L 95,95 L 95,110 L 80,121 Z" />
-      <!-- Row 2 -->
       <path d="M 60,98 L 80,89 L 80,103 L 60,112 Z" />
       <path d="M 80,89 L 95,81 L 95,95 L 80,103 Z" />
-      <!-- Row 3 -->
       <path d="M 60,84 L 80,75 L 80,89 L 60,98 Z" />
       <path d="M 80,75 L 95,67 L 95,81 L 80,89 Z" />
     </g>
 
     <!-- Building Wireframe Grid Lines -->
-    <g id="building-grid" stroke="#ffffff" stroke-width="0.8" opacity="0.6" fill="none">
-      <!-- Vertical lines -->
+    <g id="building-grid" stroke="#ffffff" stroke-width="0.85" opacity="0.5" fill="none">
       <line x1="25" y1="88" x2="25" y2="114" />
       <line x1="42" y1="73" x2="42" y2="121" />
       <line x1="60" y1="58" x2="60" y2="128" />
       <line x1="80" y1="73" x2="80" y2="121" />
       <line x1="95" y1="88" x2="95" y2="110" stroke-width="1.2" stroke="#e2e8f0" />
-
-      <!-- Left-side horizontal lines (perspective vanishing to left) -->
+      
       <path d="M 25,114 L 60,128" />
       <path d="M 25,100 L 60,114" />
       <path d="M 25,86 L 60,100" />
       <path d="M 42,73 L 60,86" />
-
-      <!-- Right-side horizontal lines (perspective vanishing to right) -->
+      
       <path d="M 60,128 L 95,110" />
       <path d="M 60,114 L 95,96" />
       <path d="M 60,100 L 95,82" />
       <path d="M 60,86 L 80,73" />
-
-      <!-- Roof structure -->
+      
       <path d="M 25,88 L 60,58 L 95,88" />
-      <path d="M 42,73 L 60,58" stroke-width="0.5" />
-      <path d="M 80,73 L 60,58" stroke-width="0.5" />
     </g>
 
-    <!-- 2. FRAMING LINES -->
+    <!-- 3. FRAMING LINES -->
     <!-- Top-Left Frame (White) -->
-    <path d="M 175,25 L 105,25 L 105,65" stroke="#ffffff" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.9" />
+    <path d="M 175,25 L 105,25 L 105,65" stroke="#ffffff" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.75" />
     <!-- Top-Right Frame (Orange) -->
     <path d="M 195,25 L 290,25 L 290,65" stroke="url(#orangeGrad)" stroke-width="1.5" fill="none" stroke-linecap="round" />
     <!-- Bottom-Right Frame (White) -->
-    <path d="M 290,85 L 290,115 L 195,115" stroke="#ffffff" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.9" />
+    <path d="M 290,85 L 290,115 L 195,115" stroke="#ffffff" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.75" />
 
-    <!-- 3. SWEEPING ROAD (BOTTOM) -->
-    <g id="sweeping-road" opacity="0.95">
-      <!-- Curved Road Body (3 Orange Lanes) -->
-      <path d="M 25,125 C 60,145 130,147 200,125" stroke="url(#orangeGrad)" stroke-width="3.5" fill="none" stroke-linecap="round" />
-      <path d="M 25,129 C 60,150 130,152 185,130" stroke="url(#orangeGrad)" stroke-width="2" fill="none" stroke-linecap="round" />
-      <path d="M 25,133 C 60,155 130,157 170,135" stroke="url(#orangeGrad)" stroke-width="1" fill="none" stroke-linecap="round" />
-    </g>
-
-    <!-- 4. CUSTOM LETTER "K" (SILVER GRADIENT) -->
-    <path d="M 125,35 L 142,35 L 142,68 L 175,35 L 194,35 L 153,74 L 196,115 L 176,115 L 142,80 L 142,115 L 125,115 Z" 
-          fill="url(#silverGrad)" />
-
-    <!-- 5. CUSTOM LETTER "J" (ORANGE GRADIENT) -->
-    <!-- Sweeps down and under the K -->
-    <path d="M 198,35 L 216,35 L 216,88 C 216,110 196,124 165,124 C 145,124 130,118 123,112 L 132,102 C 138,107 149,112 165,112 C 185,112 198,104 198,88 Z" 
-          fill="url(#orangeGrad)" filter="url(#orangeGlow)" />
-
-    <!-- 6. CUSTOM LETTER "R" (SILVER GRADIENT WITH 3D CURL LOOK) -->
-    <g id="letter-R">
-      <!-- Stem of R -->
-      <rect x="226" y="35" width="17" height="80" fill="url(#silverGrad)" />
-      <!-- Loop of R -->
-      <path d="M 243,35 L 273,35 C 288,35 292,44 292,54 C 292,64 286,72 271,72 L 243,72 Z M 243,45 L 268,45 C 278,45 281,49 281,54 C 281,59 278,62 268,62 L 243,62 Z" 
+    <!-- 4. LETTERS (WITH 3D SHADOW FILTER) -->
+    <g id="letters-group" filter="url(#dropShadow)">
+      <!-- LETTER K -->
+      <path d="M 125,35 L 142,35 L 142,68 L 175,35 L 194,35 L 153,74 L 196,115 L 176,115 L 142,80 L 142,115 L 125,115 Z" 
             fill="url(#silverGrad)" />
-      <!-- Leg of R (overlapping loop with a 3D shadow) -->
-      <path d="M 252,72 L 270,72 L 296,115 L 277,115 Z" fill="url(#silverGrad)" />
-      
-      <!-- 3D curl shadow detail on the R loop for high-fidelity representation -->
-      <path d="M 276,35 L 292,50 L 292,35 Z" fill="#9ca3af" opacity="0.4" />
+
+      <!-- LETTER J -->
+      <path d="M 198,35 L 216,35 L 216,88 C 216,110 196,124 165,124 C 145,124 130,118 123,112 L 132,102 C 138,107 149,112 165,112 C 185,112 198,104 198,88 Z" 
+            fill="url(#orangeGrad)" />
+
+      <!-- LETTER R WITH 3D RIBBON FOLD -->
+      <g id="letter-r-with-fold">
+        <!-- Stem of R -->
+        <rect x="226" y="35" width="17" height="80" fill="url(#silverGrad)" />
+        <!-- Leg of R -->
+        <path d="M 252,72 L 270,72 L 296,115 L 277,115 Z" fill="url(#silverGrad)" />
+        <!-- Loop of R (Corner cut off at 272,35 to 292,55) -->
+        <path d="M 243,35 L 272,35 L 292,55 L 292,62 C 292,68 286,72 271,72 L 243,72 Z M 243,45 L 268,45 C 278,45 281,49 281,54 C 281,59 278,62 268,62 L 243,62 Z" 
+              fill="url(#silverGrad)" />
+        
+        <!-- Underlying fold shadow -->
+        <path d="M 272,35 L 272,55 L 292,55 Z" fill="url(#shadowGrad)" />
+        <!-- Folded flap (brighter metallic white for depth) -->
+        <path d="M 272,35 L 292,55 L 272,55 Z" fill="#ffffff" />
+        <!-- Crease line -->
+        <line x1="272" y1="35" x2="272" y2="55" stroke="#cbd5e1" stroke-width="0.5" />
+      </g>
     </g>
   </g>
 </svg>
