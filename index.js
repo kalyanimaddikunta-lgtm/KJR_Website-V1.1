@@ -142,6 +142,9 @@ document.addEventListener('DOMContentLoaded', () => {
             document.body.classList.remove('light-theme');
             localStorage.setItem('kjr_theme', 'dark');
         }
+        if (typeof applySiteSettings === 'function') {
+            applySiteSettings(getSiteSettings());
+        }
     };
 
     // Load initial theme
@@ -271,16 +274,16 @@ document.addEventListener('DOMContentLoaded', () => {
         gst: "36AAAAC1234A1Z1"
     };
 
-    const getSiteSettings = () => {
+    function getSiteSettings() {
         const stored = localStorage.getItem('kjr_site_settings');
         if (stored) {
             return JSON.parse(stored);
         }
         localStorage.setItem('kjr_site_settings', JSON.stringify(DEFAULT_SETTINGS));
         return DEFAULT_SETTINGS;
-    };
+    }
 
-    const applySiteSettings = (settings) => {
+    function applySiteSettings(settings) {
         // Apply Phone
         const phoneEl = document.getElementById('footerPhone');
         if (phoneEl) {
@@ -319,11 +322,17 @@ document.addEventListener('DOMContentLoaded', () => {
         // Apply Logo Image Override
         const navImg = document.getElementById('navLogoImg');
         const footImg = document.getElementById('footerLogoImg');
-        const logoUrl = settings.logoImage ? settings.logoImage : "assets/logo.svg";
+        
+        let navLogoUrl = settings.logoImage;
+        let footLogoUrl = settings.logoImage ? settings.logoImage : "assets/logo.svg";
+        
+        if (!navLogoUrl) {
+            navLogoUrl = document.body.classList.contains('light-theme') ? "assets/logo-light.svg" : "assets/logo.svg";
+        }
 
-        if (navImg) navImg.setAttribute('src', logoUrl);
-        if (footImg) footImg.setAttribute('src', logoUrl);
-    };
+        if (navImg) navImg.setAttribute('src', navLogoUrl);
+        if (footImg) footImg.setAttribute('src', footLogoUrl);
+    }
 
     // Load initial settings
     applySiteSettings(getSiteSettings());
@@ -831,6 +840,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 message: document.getElementById('message').value.trim(),
                 date: new Date().toLocaleString()
             };
+
+            console.log("Client Quote Submission:", newQuote);
 
             // Save in localStorage
             const quotesList = getQuotes();

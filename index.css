@@ -1577,7 +1577,7 @@ a.contact-value:hover {
     border-radius: 6px;
     padding: 12px 16px;
     font-size: 0.95rem;
-    color: #ffffff;
+    color: var(--text-primary);
     transition: var(--transition-fast);
 }
 
@@ -1773,6 +1773,14 @@ a.contact-value:hover {
     
     .menu-toggle {
         display: block;
+    }
+    
+    .mobile-login-link {
+        display: block !important;
+    }
+    
+    .nav-login-btn {
+        display: none !important;
     }
     
     .nav-menu {
@@ -2338,6 +2346,30 @@ body.light-theme .nav-login-btn:hover {
     color: var(--accent) !important;
     border-color: var(--accent) !important;
     background: rgba(255, 106, 0, 0.05) !important;
+}
+
+/* Hide mobile login link by default on desktop */
+.mobile-login-link {
+    display: none !important;
+}
+
+/* Light Theme Form Inputs override */
+body.light-theme .form-group input,
+body.light-theme .form-group select,
+body.light-theme .form-group textarea {
+    background: #f8fafc;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    color: #0f172a;
+}
+body.light-theme .form-group input:focus,
+body.light-theme .form-group select:focus,
+body.light-theme .form-group textarea:focus {
+    background: #ffffff;
+    border-color: var(--accent);
+}
+body.light-theme .form-group select option {
+    background: #ffffff;
+    color: #0f172a;
 }
 
 
