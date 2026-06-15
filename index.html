@@ -13,6 +13,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="env.js"></script>
     <link rel="stylesheet" href="index.css">
 </head>
 <body>
@@ -21,10 +22,10 @@
     <header class="header" id="navbar">
         <div class="container nav-container">
             <a href="#" class="logo">
-                <img src="assets/logo.svg" alt="KJR Logo" class="logo-icon">
+                <img src="assets/logo.svg" alt="KJR Logo" class="logo-icon" id="navLogoImg">
                 <div class="logo-text">
-                    <span class="logo-title">KJR</span>
-                    <span class="logo-subtitle">Supply Chain Solutions</span>
+                    <span class="logo-title" id="navLogoTitle">KJR</span>
+                    <span class="logo-subtitle" id="navLogoSubtitle">Supply Chain Solutions</span>
                 </div>
             </a>
             <nav class="nav-menu" id="navMenu">
@@ -34,12 +35,14 @@
                 <a href="#about" class="nav-link">About Us</a>
                 <a href="#contact-footer" class="nav-link">Contact</a>
                 <a href="#" class="btn btn-primary nav-cta-mobile" id="nav-cta-btn-mobile">Request Quote</a>
+                <a href="#" class="nav-link mobile-login-link" id="mobileLoginBtn" style="margin-top: 15px; color: var(--accent); font-weight: 700; border-top: 1px solid var(--border-color); padding-top: 15px; width: 100%; text-align: center;">KJR Login</a>
             </nav>
             <div class="nav-actions">
                 <button class="theme-toggle-btn" id="themeToggleBtn" aria-label="Toggle Theme">
                     <i data-lucide="sun" class="theme-icon theme-icon-sun"></i>
                     <i data-lucide="moon" class="theme-icon theme-icon-moon"></i>
                 </button>
+                <button class="btn btn-outline nav-login-btn" id="headerLoginBtn" style="padding: 8px 16px; font-size: 0.85rem; margin-right: 8px;">KJR Login</button>
                 <a href="#" class="btn btn-primary nav-cta" id="nav-cta-btn">Request Quote</a>
                 <button class="menu-toggle" id="menuToggle" aria-label="Toggle Menu">
                     <i data-lucide="menu" class="menu-icon"></i>
@@ -360,7 +363,7 @@
                 <div class="about-text-content">
                     <span class="section-badge">Our Legacy & Values</span>
                     <h2 class="section-title text-left">A Modern Supply Chain Company Built on Strong Foundations</h2>
-                    <p class="about-desc-paragraph">
+                    <p class="about-desc-paragraph" id="aboutTextParagraph">
                         KJR Supply Chain Solutions is built upon a legacy of trust, logistics excellence, and client commitment. We blend decades of industry domain knowledge with a state-of-the-art tech-enabled operation model. Our foundation is anchored on three core pillars that drive every action, route, and delivery:
                     </p>
                     <div class="pillars-container">
@@ -434,10 +437,10 @@
             <!-- Left Column: Branding -->
             <div class="footer-col branding-col">
                 <a href="#" class="footer-logo">
-                    <img src="assets/logo.svg" alt="KJR Logo" class="logo-icon">
+                    <img src="assets/logo.svg" alt="KJR Logo" class="logo-icon" id="footerLogoImg">
                     <div class="logo-text">
-                        <span class="logo-title">KJR</span>
-                        <span class="logo-subtitle">Supply Chain Solutions</span>
+                        <span class="logo-title" id="footerLogoTitle">KJR</span>
+                        <span class="logo-subtitle" id="footerLogoSubtitle">Supply Chain Solutions</span>
                     </div>
                 </a>
                 <p class="footer-tagline">Rooted in Legacy. Built for Modern Supply Chains.</p>
@@ -492,21 +495,28 @@
                         <i data-lucide="phone" class="contact-icon"></i>
                         <div>
                             <span class="contact-label">Phone</span>
-                            <a href="tel:+919182130369" class="contact-value">+91 91821 30369</a>
+                            <a href="tel:+919182130369" class="contact-value" id="footerPhone">+91 91821 30369</a>
                         </div>
                     </li>
                     <li>
                         <i data-lucide="mail" class="contact-icon"></i>
                         <div>
                             <span class="contact-label">Email</span>
-                            <a href="mailto:admin@kjrsupplychain.com" class="contact-value">admin@kjrsupplychain.com</a>
+                            <a href="mailto:admin@kjrsupplychain.com" class="contact-value" id="footerEmail">admin@kjrsupplychain.com</a>
                         </div>
                     </li>
                     <li>
                         <i data-lucide="map-pinned" class="contact-icon"></i>
                         <div>
                             <span class="contact-label">Headquarters</span>
-                            <span class="contact-value text-muted">Hyderabad, Telangana, India</span>
+                            <span class="contact-value text-muted" id="footerAddress">Hyderabad, Telangana, India</span>
+                        </div>
+                    </li>
+                    <li>
+                        <i data-lucide="file-text" class="contact-icon"></i>
+                        <div>
+                            <span class="contact-label">GSTIN</span>
+                            <span class="contact-value text-muted" id="footerGst">36AAAAC1234A1Z1</span>
                         </div>
                     </li>
                 </ul>
@@ -590,74 +600,178 @@
             <button class="modal-close" id="closeAdminModal" aria-label="Close Modal">
                 <i data-lucide="x"></i>
             </button>
-            <div class="modal-header">
-                <h3 class="modal-title">KJR Internal Portal</h3>
-                <p class="modal-subtitle">Log in with corporate credentials to manage site settings.</p>
+            <!-- Step 1: Username & Password -->
+            <div id="loginStepCredentials">
+                <div class="modal-header">
+                    <h3 class="modal-title">KJR Internal Portal</h3>
+                    <p class="modal-subtitle">Log in with corporate credentials to manage site settings.</p>
+                </div>
+                <form id="adminLoginForm" class="modal-form">
+                    <div class="form-group">
+                        <label for="adminUsername">Username</label>
+                        <input type="text" id="adminUsername" required placeholder="Enter username">
+                    </div>
+                    <div class="form-group">
+                        <label for="adminPassword">Password</label>
+                        <input type="password" id="adminPassword" required placeholder="••••••••">
+                    </div>
+                    <div id="loginErrorMsg" class="error-msg" style="display:none; color:#ef4444; font-size:0.85rem; font-weight:600; margin-top:-10px;">Invalid username or password.</div>
+                    <button type="submit" class="btn btn-primary btn-block">Request OTP</button>
+                </form>
             </div>
-            <form id="adminLoginForm" class="modal-form">
-                <div class="form-group">
-                    <label for="adminUsername">Username</label>
-                    <input type="text" id="adminUsername" required placeholder="Enter username">
+            
+            <!-- Step 2: OTP Verification (Initially Hidden) -->
+            <div id="loginStepOtp" style="display: none;">
+                <div class="modal-header">
+                    <h3 class="modal-title">Enter OTP Code</h3>
+                    <p class="modal-subtitle" id="otpNotice">A 6-digit code has been sent to your email.</p>
                 </div>
-                <div class="form-group">
-                    <label for="adminPassword">Password</label>
-                    <input type="password" id="adminPassword" required placeholder="••••••••">
-                </div>
-                <div id="loginErrorMsg" class="error-msg" style="display:none; color:#ef4444; font-size:0.85rem; font-weight:600; margin-top:-10px;">Invalid username or password.</div>
-                <button type="submit" class="btn btn-primary btn-block">Log In</button>
-            </form>
+                <form id="adminOtpForm" class="modal-form">
+                    <div class="form-group">
+                        <label for="otpCode">Verification Code</label>
+                        <input type="text" id="otpCode" required placeholder="######" maxlength="6" style="text-align: center; font-size: 1.5rem; letter-spacing: 0.3em; font-weight: 700;">
+                    </div>
+                    <div id="otpErrorMsg" class="error-msg" style="display:none; color:#ef4444; font-size:0.85rem; font-weight:600; margin-top:-10px;">Incorrect OTP code. Please try again.</div>
+                    <button type="submit" class="btn btn-primary btn-block">Verify & Enter Console</button>
+                    <button type="button" class="btn btn-outline btn-block" id="btnBackToLogin" style="margin-top: 10px;">Back to Login</button>
+                </form>
+            </div>
         </div>
     </div>
 
     <!-- Admin Console Modal -->
     <div class="modal-overlay" id="consoleModal">
-        <div class="modal-card console-card" style="max-width: 800px; display: flex; flex-direction: column; max-height: 90vh;">
+        <div class="modal-card console-card" style="max-width: 900px; display: flex; flex-direction: column; height: 85vh; padding: 30px;">
             <button class="modal-close" id="closeConsoleModal" aria-label="Close Modal">
                 <i data-lucide="x"></i>
             </button>
-            <div class="modal-header" style="margin-bottom: 15px;">
-                <h3 class="modal-title">KJR Leadership Management Console</h3>
-                <p class="modal-subtitle">Add, edit, or remove leadership team members.</p>
+            <div class="modal-header" style="margin-bottom: 20px;">
+                <h3 class="modal-title">KJR Console Panel</h3>
+                <p class="modal-subtitle">Modify leadership, customize contact parameters, and review client request forms.</p>
             </div>
             
-            <div class="console-body" style="display: flex; gap: 20px; overflow: hidden; flex: 1; min-height: 0;">
-                <!-- Left panel: Members list -->
-                <div class="console-list-panel" style="flex: 1; overflow-y: auto; border-right: 1px solid var(--border-color); padding-right: 15px;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                        <span style="font-weight: 700; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-secondary);">Team Members</span>
-                        <button class="btn btn-outline" id="btn-console-add-new" style="padding: 4px 10px; font-size: 0.8rem;">+ Add New</button>
+            <!-- Tab Navigation Bar -->
+            <div class="console-tabs" style="display: flex; gap: 10px; border-bottom: 1px solid var(--border-color); padding-bottom: 12px; margin-bottom: 20px;">
+                <button class="btn console-tab-btn active" data-tab="tab-team" style="padding: 6px 16px; font-size: 0.85rem; border-radius: 4px;">Leadership Team</button>
+                <button class="btn console-tab-btn" data-tab="tab-settings" style="padding: 6px 16px; font-size: 0.85rem; border-radius: 4px;">Site Settings</button>
+                <button class="btn console-tab-btn" data-tab="tab-quotes" style="padding: 6px 16px; font-size: 0.85rem; border-radius: 4px;">Quote Requests (<span id="consoleQuoteCount">0</span>)</button>
+            </div>
+            
+            <!-- Dynamic Tab Body Container -->
+            <div class="console-tab-container" style="flex: 1; overflow: hidden; display: flex; min-height: 0;">
+                
+                <!-- TAB 1: LEADERSHIP TEAM -->
+                <div class="console-tab-content active" id="tab-team" style="display: flex; gap: 20px; width: 100%; height: 100%;">
+                    <!-- Left: Members list -->
+                    <div class="console-list-panel" style="flex: 1; overflow-y: auto; border-right: 1px solid var(--border-color); padding-right: 15px; display: flex; flex-direction: column;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                            <span style="font-weight: 700; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-secondary);">Team Members</span>
+                            <button class="btn btn-outline" id="btn-console-add-new" style="padding: 4px 10px; font-size: 0.8rem;">+ Add New</button>
+                        </div>
+                        <div id="consoleTeamList" style="display: flex; flex-direction: column; gap: 8px; flex: 1; overflow-y: auto;">
+                            <!-- Dynamically loaded list -->
+                        </div>
                     </div>
-                    <div id="consoleTeamList" style="display: flex; flex-direction: column; gap: 8px;">
-                        <!-- Dynamically filled list -->
+
+                    <!-- Right: Editor Form -->
+                    <div class="console-edit-panel" style="flex: 1.2; display: flex; flex-direction: column; overflow-y: auto;">
+                        <span style="font-weight: 700; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-secondary); margin-bottom: 15px;" id="consoleFormTitle">Member Details</span>
+                        <form id="consoleMemberForm" style="display: flex; flex-direction: column; gap: 12px; flex: 1;">
+                            <input type="hidden" id="editMemberId">
+                            <div class="form-group">
+                                <label for="memberName">Full Name *</label>
+                                <input type="text" id="memberName" required placeholder="e.g. John Doe">
+                            </div>
+                            <div class="form-group">
+                                <label for="memberRole">Role *</label>
+                                <input type="text" id="memberRole" required placeholder="e.g. Chief Operations Officer">
+                            </div>
+                            <div class="form-group">
+                                <label for="memberInitials">Avatar Initials *</label>
+                                <input type="text" id="memberInitials" required placeholder="e.g. JD" maxlength="3">
+                            </div>
+                            <div class="form-group">
+                                <label for="memberPhoto">Avatar Photo (Optional)</label>
+                                <input type="file" id="memberPhoto" accept="image/*" style="font-size: 0.85rem;">
+                                <input type="hidden" id="memberPhotoBase64">
+                                <div id="photoPreviewContainer" style="display: none; align-items: center; gap: 10px; margin-top: 5px;">
+                                    <img id="photoPreview" src="" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 1px solid var(--border-color);">
+                                    <button type="button" class="btn btn-outline" id="btnRemovePhoto" style="padding: 2px 8px; font-size: 0.75rem; color: #ef4444; border-color: #ef4444;">Remove Photo</button>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="memberBio">Brief Bio *</label>
+                                <textarea id="memberBio" rows="3" required placeholder="Describe their experience..."></textarea>
+                            </div>
+                            <div style="display: flex; gap: 10px; margin-top: 10px; justify-content: flex-end;">
+                                <button type="button" class="btn btn-outline" id="btn-console-cancel" style="padding: 8px 16px;">Cancel</button>
+                                <button type="submit" class="btn btn-primary" style="padding: 8px 20px;">Save Changes</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
 
-                <!-- Right panel: Editing form -->
-                <div class="console-edit-panel" style="flex: 1.2; display: flex; flex-direction: column;">
-                    <span style="font-weight: 700; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-secondary); margin-bottom: 15px;" id="consoleFormTitle">Member Details</span>
-                    <form id="consoleMemberForm" style="display: flex; flex-direction: column; gap: 12px; overflow-y: auto; flex: 1;">
-                        <input type="hidden" id="editMemberId">
-                        <div class="form-group">
-                            <label for="memberName">Full Name *</label>
-                            <input type="text" id="memberName" required placeholder="e.g. John Doe">
+                <!-- TAB 2: SITE SETTINGS -->
+                <div class="console-tab-content" id="tab-settings" style="display: none; width: 100%; height: 100%; overflow-y: auto;">
+                    <form id="consoleSettingsForm" style="display: flex; flex-direction: column; gap: 15px; width: 100%;">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="settingLogoTitle">Logo Title</label>
+                                <input type="text" id="settingLogoTitle" required placeholder="e.g. KJR">
+                            </div>
+                            <div class="form-group">
+                                <label for="settingLogoSubtitle">Logo Subtitle</label>
+                                <input type="text" id="settingLogoSubtitle" required placeholder="e.g. Supply Chain Solutions">
+                            </div>
                         </div>
                         <div class="form-group">
-                            <label for="memberRole">Role *</label>
-                            <input type="text" id="memberRole" required placeholder="e.g. Chief Financial Officer">
+                            <label for="settingLogoImage">Custom Logo Image (Optional Upload - Replaces default SVG)</label>
+                            <input type="file" id="settingLogoImage" accept="image/*" style="font-size: 0.85rem;">
+                            <input type="hidden" id="settingLogoImageBase64">
+                            <div id="logoPreviewContainer" style="display: none; align-items: center; gap: 10px; margin-top: 5px;">
+                                <img id="logoPreview" src="" style="height: 35px; width: auto; object-fit: contain;">
+                                <button type="button" class="btn btn-outline" id="btnRemoveLogoImage" style="padding: 2px 8px; font-size: 0.75rem; color: #ef4444; border-color: #ef4444;">Reset to Default SVG</button>
+                            </div>
                         </div>
                         <div class="form-group">
-                            <label for="memberInitials">Avatar Initials *</label>
-                            <input type="text" id="memberInitials" required placeholder="e.g. JD" maxlength="3">
+                            <label for="settingAbout">About Us Legacy Description</label>
+                            <textarea id="settingAbout" rows="3" required placeholder="Legacy details..."></textarea>
                         </div>
-                        <div class="form-group">
-                            <label for="memberBio">Brief Bio *</label>
-                            <textarea id="memberBio" rows="3" required placeholder="Describe their experience and responsibilities..."></textarea>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="settingPhone">Contact Phone Number</label>
+                                <input type="text" id="settingPhone" required placeholder="e.g. +91 91821 30369">
+                            </div>
+                            <div class="form-group">
+                                <label for="settingEmail">Contact Email Address</label>
+                                <input type="email" id="settingEmail" required placeholder="e.g. admin@kjrsupplychain.com">
+                            </div>
                         </div>
-                        <div style="display: flex; gap: 10px; margin-top: 10px; justify-content: flex-end;">
-                            <button type="button" class="btn btn-outline" id="btn-console-cancel" style="padding: 8px 16px;">Cancel</button>
-                            <button type="submit" class="btn btn-primary" style="padding: 8px 20px;">Save Changes</button>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="settingAddress">Headquarters Address</label>
+                                <input type="text" id="settingAddress" required placeholder="e.g. Hyderabad, India">
+                            </div>
+                            <div class="form-group">
+                                <label for="settingGst">GST Registration Number</label>
+                                <input type="text" id="settingGst" required placeholder="e.g. 36AAAAC1234A1Z1">
+                            </div>
+                        </div>
+                        <div style="display: flex; justify-content: flex-end; margin-top: 10px;">
+                            <button type="submit" class="btn btn-primary" style="padding: 10px 30px;">Save Settings</button>
                         </div>
                     </form>
+                </div>
+
+                <!-- TAB 3: QUOTE REQUESTS -->
+                <div class="console-tab-content" id="tab-quotes" style="display: none; width: 100%; height: 100%; overflow-y: auto; flex-direction: column;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                        <span style="font-weight: 700; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-secondary);">Client Submissions Log</span>
+                        <button class="btn btn-outline" id="btn-console-clear-quotes" style="padding: 4px 10px; font-size: 0.8rem; color: #ef4444; border-color: #ef4444;">Clear All Logs</button>
+                    </div>
+                    <div id="consoleQuotesContainer" style="flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 10px;">
+                        <!-- Dynamically filled list -->
+                    </div>
                 </div>
             </div>
         </div>

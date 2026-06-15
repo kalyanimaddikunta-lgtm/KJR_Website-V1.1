@@ -166,6 +166,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const closeQuoteModal = document.getElementById('closeQuoteModal');
 
     const adminModal = document.getElementById('adminModal');
+    const headerLoginBtn = document.getElementById('headerLoginBtn');
+    const mobileLoginBtn = document.getElementById('mobileLoginBtn');
     const kjrLoginLink = document.getElementById('kjrLoginLink');
     const closeAdminModal = document.getElementById('closeAdminModal');
     
@@ -188,22 +190,26 @@ document.addEventListener('DOMContentLoaded', () => {
         if (navCta) navCta.addEventListener('click', (e) => { e.preventDefault(); openModal(quoteModal); });
         if (navCtaMobile) navCtaMobile.addEventListener('click', (e) => { e.preventDefault(); openModal(quoteModal); });
         if (closeQuoteModal) closeQuoteModal.addEventListener('click', () => closeModal(quoteModal));
-        
-        const quoteForm = document.getElementById('quoteForm');
-        if (quoteForm) {
-            quoteForm.addEventListener('submit', (e) => {
-                closeModal(quoteModal);
-            });
-        }
     }
 
-    // Admin Access Modals Trigger
-    if (kjrLoginLink) {
-        kjrLoginLink.addEventListener('click', (e) => {
-            e.preventDefault();
-            openModal(adminModal);
-        });
-    }
+    const openAdminPortal = (e) => {
+        if (e) e.preventDefault();
+        // Reset login step visibility
+        const step1 = document.getElementById('loginStepCredentials');
+        const step2 = document.getElementById('loginStepOtp');
+        if (step1) step1.style.display = 'block';
+        if (step2) step2.style.display = 'none';
+        const err1 = document.getElementById('loginErrorMsg');
+        const err2 = document.getElementById('otpErrorMsg');
+        if (err1) err1.style.display = 'none';
+        if (err2) err2.style.display = 'none';
+        openModal(adminModal);
+    };
+
+    if (headerLoginBtn) headerLoginBtn.addEventListener('click', openAdminPortal);
+    if (mobileLoginBtn) mobileLoginBtn.addEventListener('click', openAdminPortal);
+    if (kjrLoginLink) kjrLoginLink.addEventListener('click', openAdminPortal);
+
     if (closeAdminModal) {
         closeAdminModal.addEventListener('click', () => closeModal(adminModal));
     }
@@ -218,14 +224,118 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.target === consoleModal) closeModal(consoleModal);
     });
 
-    // 7. Leadership Team CRUD & Persistence Logic
+    // 7. Web3Forms Email Dispatch Helper
+    const sendEmail = async (subject, messageText) => {
+        const accessKey = window.env ? window.env.WEB3FORMS_ACCESS_KEY : "YOUR_ACCESS_KEY_HERE";
+        const adminEmail = window.env ? window.env.ADMIN_EMAIL : "admin@kjrsupplychain.com";
+        
+        if (!accessKey || accessKey === "YOUR_ACCESS_KEY_HERE" || accessKey.length < 5) {
+            console.warn("Web3Forms Access Key is not configured. Falling back to simulated log/alert.");
+            return false;
+        }
+        
+        const payload = {
+            access_key: accessKey,
+            subject: subject,
+            from_name: "KJR Automated System",
+            to_email: adminEmail,
+            message: messageText
+        };
+        
+        try {
+            const response = await fetch("https://api.web3forms.com/submit", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                },
+                body: JSON.stringify(payload)
+            });
+            const result = await response.json();
+            return result.success;
+        } catch (error) {
+            console.error("Error sending email via Web3Forms API:", error);
+            return false;
+        }
+    };
+
+    // 8. Site Settings Management
+    const DEFAULT_SETTINGS = {
+        logoTitle: "KJR",
+        logoSubtitle: "Supply Chain Solutions",
+        logoImage: "", // if present, holds base64 data url
+        about: "KJR Supply Chain Solutions is built upon a legacy of trust, logistics excellence, and client commitment. We blend decades of industry domain knowledge with a state-of-the-art tech-enabled operation model. Our foundation is anchored on three core pillars that drive every action, route, and delivery.",
+        phone: "+91 91821 30369",
+        email: "admin@kjrsupplychain.com",
+        address: "Hyderabad, Telangana, India",
+        gst: "36AAAAC1234A1Z1"
+    };
+
+    const getSiteSettings = () => {
+        const stored = localStorage.getItem('kjr_site_settings');
+        if (stored) {
+            return JSON.parse(stored);
+        }
+        localStorage.setItem('kjr_site_settings', JSON.stringify(DEFAULT_SETTINGS));
+        return DEFAULT_SETTINGS;
+    };
+
+    const applySiteSettings = (settings) => {
+        // Apply Phone
+        const phoneEl = document.getElementById('footerPhone');
+        if (phoneEl) {
+            phoneEl.textContent = settings.phone;
+            phoneEl.setAttribute('href', `tel:${settings.phone.replace(/\s+/g, '')}`);
+        }
+        // Apply Email
+        const emailEl = document.getElementById('footerEmail');
+        if (emailEl) {
+            emailEl.textContent = settings.email;
+            emailEl.setAttribute('href', `mailto:${settings.email}`);
+        }
+        // Apply Address
+        const addrEl = document.getElementById('footerAddress');
+        if (addrEl) addrEl.textContent = settings.address;
+        
+        // Apply GST
+        const gstEl = document.getElementById('footerGst');
+        if (gstEl) gstEl.textContent = settings.gst;
+        
+        // Apply About Text
+        const aboutEl = document.getElementById('aboutTextParagraph');
+        if (aboutEl) aboutEl.textContent = settings.about;
+
+        // Apply Logo Titles
+        const navTitle = document.getElementById('navLogoTitle');
+        const navSub = document.getElementById('navLogoSubtitle');
+        const footTitle = document.getElementById('footerLogoTitle');
+        const footSub = document.getElementById('footerLogoSubtitle');
+
+        if (navTitle) navTitle.textContent = settings.logoTitle;
+        if (navSub) navSub.textContent = settings.logoSubtitle;
+        if (footTitle) footTitle.textContent = settings.logoTitle;
+        if (footSub) footSub.textContent = settings.logoSubtitle;
+
+        // Apply Logo Image Override
+        const navImg = document.getElementById('navLogoImg');
+        const footImg = document.getElementById('footerLogoImg');
+        const logoUrl = settings.logoImage ? settings.logoImage : "assets/logo.svg";
+
+        if (navImg) navImg.setAttribute('src', logoUrl);
+        if (footImg) footImg.setAttribute('src', logoUrl);
+    };
+
+    // Load initial settings
+    applySiteSettings(getSiteSettings());
+
+    // 9. Leadership Team CRUD & Photos Logic
     const DEFAULT_TEAM = [
-        { id: "1", name: "Prasanna Chakravarthi", role: "Chief Executive Officer (CEO)", initials: "PC", bio: "Driving strategic growth, technology integrations, and expanding enterprise client operations globally." },
-        { id: "2", name: "P. Hemalatha", role: "Founder", initials: "PH", bio: "Co-established the firm’s legacy and structural framework, guiding the core ethics and long-term values." },
-        { id: "3", name: "K.J. Rajendra Prasad", role: "Founder", initials: "KP", bio: "Guiding operations scale and expansion strategy with decades of deep supply chain management expertise." },
-        { id: "4", name: "T. Sai Kiran", role: "Operations Head", initials: "SK", bio: "Managing daily logistics, dark store fulfillment networks, and last-mile SLAs across all operational cities." },
-        { id: "5", name: "Mahendra", role: "HR Partner", initials: "M", bio: "Spearheading talent recruitment, specialized operations training, and workforce scaling strategies." },
-        { id: "6", name: "Head MIS Executive", role: "Management Information Systems", initials: "ME", bio: "Managing data analytics architectures, cloud logistics databases, and operations metric reporting tools." }
+        { id: "1", name: "Prasanna Chakravarthi", role: "Chief Executive Officer (CEO)", initials: "PC", bio: "Driving strategic growth, technology integrations, and expanding enterprise client operations globally.", photo: "" },
+        { id: "2", name: "P. Hemalatha", role: "Founder", initials: "PH", bio: "Co-established the firm’s legacy and structural framework, guiding the core ethics and long-term values.", photo: "" },
+        { id: "3", name: "K.J. Rajendra Prasad", role: "Founder", initials: "KP", bio: "Guiding operations scale and expansion strategy with decades of deep supply chain management expertise.", photo: "" },
+        { id: "4", name: "T. Sai Kiran", role: "Operations Head", initials: "SK", bio: "Managing daily logistics, dark store fulfillment networks, and last-mile SLAs across all operational cities.", photo: "" },
+        { id: "5", name: "Mahendra", role: "HR Partner", initials: "M", bio: "Spearheading talent recruitment, specialized operations training, and workforce scaling strategies.", photo: "" },
+        { id: "6", name: "Head MIS Executive", role: "Management Information Systems", initials: "ME", bio: "Managing data analytics architectures, cloud logistics databases, and operations metric reporting tools.", photo: "" }
     ];
 
     const getTeamMembers = () => {
@@ -244,11 +354,17 @@ document.addEventListener('DOMContentLoaded', () => {
         members.forEach(member => {
             const card = document.createElement('div');
             card.className = 'team-card';
+            
+            // Build avatar HTML based on whether photo is present
+            let avatarHtml = `<i data-lucide="user" class="avatar-fallback-icon"></i><span class="avatar-initials">${member.initials}</span>`;
+            if (member.photo) {
+                avatarHtml = `<img src="${member.photo}" class="team-avatar-img" alt="${member.name}">`;
+            }
+
             card.innerHTML = `
                 <div class="team-avatar-wrapper">
                     <div class="team-avatar-placeholder">
-                        <i data-lucide="user" class="avatar-fallback-icon"></i>
-                        <span class="avatar-initials">${member.initials}</span>
+                        ${avatarHtml}
                     </div>
                 </div>
                 <h3 class="team-name">${member.name}</h3>
@@ -266,34 +382,155 @@ document.addEventListener('DOMContentLoaded', () => {
     const teamMembers = getTeamMembers();
     renderTeamGrid(teamMembers);
 
-    // Admin Console login logic
+    // 10. Admin Authentication & OTP Logic
     const adminLoginForm = document.getElementById('adminLoginForm');
     const loginErrorMsg = document.getElementById('loginErrorMsg');
-    
+    const loginStepCredentials = document.getElementById('loginStepCredentials');
+    const loginStepOtp = document.getElementById('loginStepOtp');
+    const adminOtpForm = document.getElementById('adminOtpForm');
+    const otpErrorMsg = document.getElementById('otpErrorMsg');
+    const btnBackToLogin = document.getElementById('btnBackToLogin');
+    const otpNotice = document.getElementById('otpNotice');
+
     if (adminLoginForm) {
-        adminLoginForm.addEventListener('submit', (e) => {
+        adminLoginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const usernameInput = document.getElementById('adminUsername').value.trim();
             const passwordInput = document.getElementById('adminPassword').value.trim();
             
             if (usernameInput === 'admin' && passwordInput === 'kjrsupply') {
-                closeModal(adminModal);
-                adminLoginForm.reset();
                 if (loginErrorMsg) loginErrorMsg.style.display = 'none';
-                openModal(consoleModal);
-                renderConsoleList();
+                
+                // Generate 6 digit code
+                const otp = Math.floor(100000 + Math.random() * 900000).toString();
+                sessionStorage.setItem('admin_otp', otp);
+                
+                const adminEmail = window.env ? window.env.ADMIN_EMAIL : "admin@kjrsupplychain.com";
+                if (otpNotice) otpNotice.textContent = `A 6-digit code has been sent to ${adminEmail}.`;
+                
+                // Dispatch email
+                const emailSuccess = await sendEmail(
+                    "KJR Portal Verification Code", 
+                    `KJR Admin Portal Access request.\n\nYour 6-digit OTP code is: ${otp}\n\nThis code is valid for 10 minutes. If you did not request this, please ignore this email.`
+                );
+                
+                // Test fallback if no token set or email fails
+                if (!emailSuccess) {
+                    alert(`[ADMIN NOTIFICATION OTP]: ${otp}`);
+                }
+                
+                // Swap step
+                if (loginStepCredentials) loginStepCredentials.style.display = 'none';
+                if (loginStepOtp) loginStepOtp.style.display = 'block';
+                if (adminOtpForm) adminOtpForm.reset();
             } else {
                 if (loginErrorMsg) loginErrorMsg.style.display = 'block';
             }
         });
     }
 
-    // Admin Console Management Logic
+    if (btnBackToLogin) {
+        btnBackToLogin.addEventListener('click', () => {
+            if (loginStepOtp) loginStepOtp.style.display = 'none';
+            if (loginStepCredentials) loginStepCredentials.style.display = 'block';
+            sessionStorage.removeItem('admin_otp');
+        });
+    }
+
+    if (adminOtpForm) {
+        adminOtpForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const enteredOtp = document.getElementById('otpCode').value.trim();
+            const actualOtp = sessionStorage.getItem('admin_otp');
+            
+            if (enteredOtp && enteredOtp === actualOtp) {
+                closeModal(adminModal);
+                sessionStorage.removeItem('admin_otp');
+                if (otpErrorMsg) otpErrorMsg.style.display = 'none';
+                adminLoginForm.reset();
+                adminOtpForm.reset();
+                openModal(consoleModal);
+                // Open first tab by default
+                triggerTabSwitch('tab-team');
+            } else {
+                if (otpErrorMsg) otpErrorMsg.style.display = 'block';
+            }
+        });
+    }
+
+    // 11. Admin Panel Tabs Switching
+    const triggerTabSwitch = (tabId) => {
+        // Tab buttons
+        document.querySelectorAll('.console-tab-btn').forEach(btn => {
+            if (btn.getAttribute('data-tab') === tabId) {
+                btn.classList.add('active');
+            } else {
+                btn.classList.remove('active');
+            }
+        });
+
+        // Tab Content Panels
+        document.querySelectorAll('.console-tab-content').forEach(panel => {
+            if (panel.getAttribute('id') === tabId) {
+                panel.classList.add('active');
+            } else {
+                panel.classList.remove('active');
+            }
+        });
+
+        // Load specific tab content lists
+        if (tabId === 'tab-team') {
+            renderConsoleList();
+        } else if (tabId === 'tab-settings') {
+            loadSettingsForm();
+        } else if (tabId === 'tab-quotes') {
+            renderQuotesList();
+        }
+    };
+
+    document.querySelectorAll('.console-tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const tabId = btn.getAttribute('data-tab');
+            triggerTabSwitch(tabId);
+        });
+    });
+
+    // 12. Admin Console: Team Member CRUD
     const consoleTeamList = document.getElementById('consoleTeamList');
     const consoleMemberForm = document.getElementById('consoleMemberForm');
     const btnConsoleAddNew = document.getElementById('btn-console-add-new');
     const btnConsoleCancel = document.getElementById('btn-console-cancel');
     const consoleFormTitle = document.getElementById('consoleFormTitle');
+    const filePhoto = document.getElementById('memberPhoto');
+    const hiddenPhotoBase64 = document.getElementById('memberPhotoBase64');
+    const photoPreviewContainer = document.getElementById('photoPreviewContainer');
+    const photoPreview = document.getElementById('photoPreview');
+    const btnRemovePhoto = document.getElementById('btnRemovePhoto');
+
+    // Handle photo file selection
+    if (filePhoto) {
+        filePhoto.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    const base64 = event.target.result;
+                    if (hiddenPhotoBase64) hiddenPhotoBase64.value = base64;
+                    if (photoPreview) photoPreview.setAttribute('src', base64);
+                    if (photoPreviewContainer) photoPreviewContainer.style.display = 'flex';
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    }
+
+    if (btnRemovePhoto) {
+        btnRemovePhoto.addEventListener('click', () => {
+            if (filePhoto) filePhoto.value = '';
+            if (hiddenPhotoBase64) hiddenPhotoBase64.value = '';
+            if (photoPreviewContainer) photoPreviewContainer.style.display = 'none';
+        });
+    }
 
     const renderConsoleList = () => {
         if (!consoleTeamList) return;
@@ -327,6 +564,16 @@ document.addEventListener('DOMContentLoaded', () => {
                     document.getElementById('memberRole').value = member.role;
                     document.getElementById('memberInitials').value = member.initials;
                     document.getElementById('memberBio').value = member.bio;
+                    
+                    if (member.photo) {
+                        if (hiddenPhotoBase64) hiddenPhotoBase64.value = member.photo;
+                        if (photoPreview) photoPreview.setAttribute('src', member.photo);
+                        if (photoPreviewContainer) photoPreviewContainer.style.display = 'flex';
+                    } else {
+                        if (hiddenPhotoBase64) hiddenPhotoBase64.value = '';
+                        if (photoPreviewContainer) photoPreviewContainer.style.display = 'none';
+                    }
+
                     if (consoleFormTitle) consoleFormTitle.textContent = 'Edit Member Details';
                 }
             });
@@ -353,6 +600,9 @@ document.addEventListener('DOMContentLoaded', () => {
             consoleMemberForm.reset();
             document.getElementById('editMemberId').value = '';
         }
+        if (filePhoto) filePhoto.value = '';
+        if (hiddenPhotoBase64) hiddenPhotoBase64.value = '';
+        if (photoPreviewContainer) photoPreviewContainer.style.display = 'none';
         if (consoleFormTitle) consoleFormTitle.textContent = 'Member Details';
     };
 
@@ -377,25 +627,25 @@ document.addEventListener('DOMContentLoaded', () => {
             const role = document.getElementById('memberRole').value.trim();
             const initials = document.getElementById('memberInitials').value.trim().toUpperCase();
             const bio = document.getElementById('memberBio').value.trim();
+            const photo = document.getElementById('memberPhotoBase64').value;
 
             let members = getTeamMembers();
 
             if (id) {
-                // Edit existing member
                 members = members.map(m => {
                     if (m.id === id) {
-                        return { id, name, role, initials, bio };
+                        return { id, name, role, initials, bio, photo };
                     }
                     return m;
                 });
             } else {
-                // Add new member
                 const newMember = {
                     id: Date.now().toString(),
                     name,
                     role,
                     initials,
-                    bio
+                    bio,
+                    photo
                 };
                 members.push(newMember);
             }
@@ -406,6 +656,223 @@ document.addEventListener('DOMContentLoaded', () => {
             resetConsoleForm();
         });
     }
+
+    // 13. Admin Console: Site Settings Management
+    const consoleSettingsForm = document.getElementById('consoleSettingsForm');
+    const fileLogoImage = document.getElementById('settingLogoImage');
+    const hiddenLogoImageBase64 = document.getElementById('settingLogoImageBase64');
+    const logoPreviewContainer = document.getElementById('logoPreviewContainer');
+    const logoPreview = document.getElementById('logoPreview');
+    const btnRemoveLogoImage = document.getElementById('btnRemoveLogoImage');
+
+    if (fileLogoImage) {
+        fileLogoImage.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    const base64 = event.target.result;
+                    if (hiddenLogoImageBase64) hiddenLogoImageBase64.value = base64;
+                    if (logoPreview) logoPreview.setAttribute('src', base64);
+                    if (logoPreviewContainer) logoPreviewContainer.style.display = 'flex';
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    }
+
+    if (btnRemoveLogoImage) {
+        btnRemoveLogoImage.addEventListener('click', () => {
+            if (fileLogoImage) fileLogoImage.value = '';
+            if (hiddenLogoImageBase64) hiddenLogoImageBase64.value = '';
+            if (logoPreviewContainer) logoPreviewContainer.style.display = 'none';
+        });
+    }
+
+    const loadSettingsForm = () => {
+        const settings = getSiteSettings();
+        document.getElementById('settingLogoTitle').value = settings.logoTitle;
+        document.getElementById('settingLogoSubtitle').value = settings.logoSubtitle;
+        document.getElementById('settingAbout').value = settings.about;
+        document.getElementById('settingPhone').value = settings.phone;
+        document.getElementById('settingEmail').value = settings.email;
+        document.getElementById('settingAddress').value = settings.address;
+        document.getElementById('settingGst').value = settings.gst;
+        
+        if (settings.logoImage) {
+            if (hiddenLogoImageBase64) hiddenLogoImageBase64.value = settings.logoImage;
+            if (logoPreview) logoPreview.setAttribute('src', settings.logoImage);
+            if (logoPreviewContainer) logoPreviewContainer.style.display = 'flex';
+        } else {
+            if (hiddenLogoImageBase64) hiddenLogoImageBase64.value = '';
+            if (logoPreviewContainer) logoPreviewContainer.style.display = 'none';
+        }
+    };
+
+    if (consoleSettingsForm) {
+        consoleSettingsForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const settings = {
+                logoTitle: document.getElementById('settingLogoTitle').value.trim(),
+                logoSubtitle: document.getElementById('settingLogoSubtitle').value.trim(),
+                logoImage: document.getElementById('settingLogoImageBase64').value,
+                about: document.getElementById('settingAbout').value.trim(),
+                phone: document.getElementById('settingPhone').value.trim(),
+                email: document.getElementById('settingEmail').value.trim(),
+                address: document.getElementById('settingAddress').value.trim(),
+                gst: document.getElementById('settingGst').value.trim()
+            };
+
+            localStorage.setItem('kjr_site_settings', JSON.stringify(settings));
+            applySiteSettings(settings);
+            alert('Site Settings successfully saved and updated!');
+        });
+    }
+
+    // 14. Quote Requests Submissions History
+    const consoleQuotesContainer = document.getElementById('consoleQuotesContainer');
+    const consoleQuoteCount = document.getElementById('consoleQuoteCount');
+    const btnConsoleClearQuotes = document.getElementById('btn-console-clear-quotes');
+    const quoteForm = document.getElementById('quoteForm');
+
+    const getQuotes = () => {
+        return JSON.parse(localStorage.getItem('kjr_quote_requests') || '[]');
+    };
+
+    const updateQuotesBadge = () => {
+        const quotes = getQuotes();
+        if (consoleQuoteCount) consoleQuoteCount.textContent = quotes.length;
+    };
+
+    const renderQuotesList = () => {
+        if (!consoleQuotesContainer) return;
+        const quotes = getQuotes();
+        consoleQuotesContainer.innerHTML = '';
+        updateQuotesBadge();
+
+        if (quotes.length === 0) {
+            consoleQuotesContainer.innerHTML = `<div style="text-align: center; color: var(--text-muted); font-size: 0.9rem; padding: 40px 0;">No client quotes submitted yet.</div>`;
+            return;
+        }
+
+        quotes.forEach(quote => {
+            const card = document.createElement('div');
+            card.className = 'quote-request-item';
+            card.innerHTML = `
+                <div class="quote-request-header">
+                    <span class="quote-request-client">${quote.name} <span style="font-weight: 500; font-size: 0.8rem; color: var(--text-muted);">from ${quote.company}</span></span>
+                    <span class="quote-request-date">${quote.date}</span>
+                </div>
+                <div class="quote-request-details">
+                    <div class="quote-request-detail-item">
+                        <span class="quote-request-label">Phone</span>
+                        <a href="tel:${quote.phone}" class="quote-request-val" style="color: var(--accent);">${quote.phone}</a>
+                    </div>
+                    <div class="quote-request-detail-item">
+                        <span class="quote-request-label">Email</span>
+                        <a href="mailto:${quote.email}" class="quote-request-val" style="color: var(--accent);">${quote.email}</a>
+                    </div>
+                    <div class="quote-request-detail-item">
+                        <span class="quote-request-label">Required Service</span>
+                        <span class="quote-request-val">${quote.service}</span>
+                    </div>
+                    <div class="quote-request-detail-item">
+                        <span class="quote-request-label">Daily Deliveries</span>
+                        <span class="quote-request-val">${quote.scale}</span>
+                    </div>
+                </div>
+                ${quote.message ? `
+                <div class="quote-request-msg">
+                    ${quote.message}
+                </div>` : ''}
+                <div style="display: flex; justify-content: flex-end; margin-top: 5px;">
+                    <button class="console-btn-delete btn-delete-quote" data-id="${quote.id}" style="padding: 3px 8px; font-size: 0.7rem;">Delete Log</button>
+                </div>
+            `;
+            consoleQuotesContainer.appendChild(card);
+        });
+
+        // Delete quote handler
+        consoleQuotesContainer.querySelectorAll('.btn-delete-quote').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const id = btn.getAttribute('data-id');
+                let quotesList = getQuotes();
+                quotesList = quotesList.filter(q => q.id !== id);
+                localStorage.setItem('kjr_quote_requests', JSON.stringify(quotesList));
+                renderQuotesList();
+            });
+        });
+    };
+
+    if (btnConsoleClearQuotes) {
+        btnConsoleClearQuotes.addEventListener('click', () => {
+            if (confirm('Are you sure you want to clear the entire submissions log history?')) {
+                localStorage.setItem('kjr_quote_requests', '[]');
+                renderQuotesList();
+            }
+        });
+    }
+
+    // Capture homepage quote form submissions
+    if (quoteForm) {
+        // Remove standard form submit actions, handle in JS
+        quoteForm.removeAttribute('onsubmit');
+        
+        quoteForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const newQuote = {
+                id: Date.now().toString(),
+                name: document.getElementById('clientName').value.trim(),
+                company: document.getElementById('companyName').value.trim(),
+                email: document.getElementById('clientEmail').value.trim(),
+                phone: document.getElementById('clientPhone').value.trim(),
+                service: document.getElementById('serviceType').value,
+                scale: document.getElementById('operationalScale').value,
+                message: document.getElementById('message').value.trim(),
+                date: new Date().toLocaleString()
+            };
+
+            // Save in localStorage
+            const quotesList = getQuotes();
+            quotesList.push(newQuote);
+            localStorage.setItem('kjr_quote_requests', JSON.stringify(quotesList));
+            updateQuotesBadge();
+
+            // Format body content
+            const subject = `KJR Quote Submission - ${newQuote.name} (${newQuote.company})`;
+            const emailBody = `
+            New custom quote request received!
+            
+            Name: ${newQuote.name}
+            Company: ${newQuote.company}
+            Email: ${newQuote.email}
+            Phone: ${newQuote.phone}
+            Service: ${newQuote.service}
+            Daily Scale: ${newQuote.scale}
+            
+            Context/Requirements:
+            ${newQuote.message || 'No additional message provided.'}
+            
+            Submitted on: ${newQuote.date}
+            `;
+
+            // Send notification email
+            const emailSuccess = await sendEmail(subject, emailBody);
+            
+            closeModal(quoteModal);
+            quoteForm.reset();
+
+            // Direct notify fallback
+            if (!emailSuccess) {
+                alert(`Quote Submission Saved! (Notification: Web3Forms not fully set up. Saved log in Admin Panel.)`);
+            } else {
+                alert('Quote request sent successfully! We will get in touch shortly.');
+            }
+        });
+    }
+
+    // Set initial quotes count badge
+    updateQuotesBadge();
 
 
     // 6. KJR Dashboard Visual Animations

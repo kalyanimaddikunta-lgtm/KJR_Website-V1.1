@@ -2172,3 +2172,172 @@ body.light-theme .console-member-item:hover {
     color: #ffffff;
 }
 
+/* Tab buttons styling */
+.console-tab-btn {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    transition: var(--transition-fast);
+}
+
+.console-tab-btn:hover {
+    border-color: var(--border-hover);
+    color: var(--accent);
+}
+
+.console-tab-btn.active {
+    background: var(--accent) !important;
+    color: #ffffff !important;
+    border-color: var(--accent) !important;
+    box-shadow: var(--accent-glow) !important;
+}
+
+body.light-theme .console-tab-btn {
+    background: #e2e8f0;
+    color: #475569;
+}
+
+body.light-theme .console-tab-btn.active {
+    background: var(--accent) !important;
+    color: #ffffff !important;
+}
+
+/* Tab Panels Visibility */
+.console-tab-content {
+    display: none !important;
+    width: 100%;
+    height: 100%;
+}
+
+.console-tab-content.active {
+    display: flex !important;
+}
+
+#tab-settings.console-tab-content.active {
+    display: block !important;
+}
+
+#tab-quotes.console-tab-content.active {
+    display: flex !important;
+}
+
+/* Quote Submission Cards */
+.quote-request-item {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    transition: var(--transition-fast);
+}
+
+.quote-request-item:hover {
+    border-color: var(--border-hover);
+}
+
+body.light-theme .quote-request-item {
+    background: #ffffff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
+    border-color: rgba(0, 0, 0, 0.06);
+}
+
+.quote-request-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 8px;
+}
+
+.quote-request-client {
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--text-primary);
+}
+
+.quote-request-date {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.quote-request-details {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    font-size: 0.85rem;
+}
+
+@media (max-width: 580px) {
+    .quote-request-details {
+        grid-template-columns: 1fr;
+    }
+}
+
+.quote-request-detail-item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.quote-request-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    letter-spacing: 0.02em;
+}
+
+.quote-request-val {
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.quote-request-msg {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    background: rgba(0, 0, 0, 0.2);
+    padding: 10px 14px;
+    border-radius: 6px;
+    border-left: 3px solid var(--accent);
+    line-height: 1.5;
+}
+
+body.light-theme .quote-request-msg {
+    background: #f1f5f9;
+    color: #334155;
+}
+
+/* Avatar Image */
+.team-avatar-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+/* Header Login Action */
+.nav-login-btn {
+    border: 1px solid var(--border-color) !important;
+    background: transparent !important;
+    color: var(--text-secondary) !important;
+}
+
+.nav-login-btn:hover {
+    color: var(--accent) !important;
+    border-color: var(--accent) !important;
+    background: rgba(255, 106, 0, 0.05) !important;
+}
+
+body.light-theme .nav-login-btn {
+    border-color: rgba(0, 0, 0, 0.15) !important;
+    color: #475569 !important;
+}
+
+body.light-theme .nav-login-btn:hover {
+    color: var(--accent) !important;
+    border-color: var(--accent) !important;
+    background: rgba(255, 106, 0, 0.05) !important;
+}
+
+
