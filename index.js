@@ -130,18 +130,56 @@ document.addEventListener('DOMContentLoaded', () => {
         cardObserver.observe(el);
     });
 
-    // 5. Modal Controllers (Request Quote & Watch Video)
+    // 5. Theme Toggle Logic
+    const themeToggleBtn = document.getElementById('themeToggleBtn');
+    const currentTheme = localStorage.getItem('kjr_theme');
+    
+    const setTheme = (theme) => {
+        if (theme === 'light') {
+            document.body.classList.add('light-theme');
+            localStorage.setItem('kjr_theme', 'light');
+        } else {
+            document.body.classList.remove('light-theme');
+            localStorage.setItem('kjr_theme', 'dark');
+        }
+    };
+
+    // Load initial theme
+    if (currentTheme) {
+        setTheme(currentTheme);
+    } else {
+        // Default to dark theme if not set
+        setTheme('dark');
+    }
+
+    if (themeToggleBtn) {
+        themeToggleBtn.addEventListener('click', () => {
+            const isLight = document.body.classList.contains('light-theme');
+            setTheme(isLight ? 'dark' : 'light');
+        });
+    }
+
+    // 6. Modal Controllers (Request Quote & Admin Console)
     const quoteModal = document.getElementById('quoteModal');
     const navCta = document.getElementById('nav-cta-btn');
     const navCtaMobile = document.getElementById('nav-cta-btn-mobile');
     const closeQuoteModal = document.getElementById('closeQuoteModal');
 
+    const adminModal = document.getElementById('adminModal');
+    const kjrLoginLink = document.getElementById('kjrLoginLink');
+    const closeAdminModal = document.getElementById('closeAdminModal');
+    
+    const consoleModal = document.getElementById('consoleModal');
+    const closeConsoleModal = document.getElementById('closeConsoleModal');
+
     const openModal = (modal) => {
+        if (!modal) return;
         modal.classList.add('active');
         document.body.style.overflow = 'hidden';
     };
 
     const closeModal = (modal) => {
+        if (!modal) return;
         modal.classList.remove('active');
         document.body.style.overflow = '';
     };
@@ -151,36 +189,223 @@ document.addEventListener('DOMContentLoaded', () => {
         if (navCtaMobile) navCtaMobile.addEventListener('click', (e) => { e.preventDefault(); openModal(quoteModal); });
         if (closeQuoteModal) closeQuoteModal.addEventListener('click', () => closeModal(quoteModal));
         
-        // Form submission inside modal
         const quoteForm = document.getElementById('quoteForm');
         if (quoteForm) {
             quoteForm.addEventListener('submit', (e) => {
-                // Pre-handled inline, but prevent default and close
                 closeModal(quoteModal);
             });
         }
     }
 
-    // Video Modal
-    const videoModal = document.getElementById('videoModal');
-    const btnWatchVideo = document.getElementById('btn-watch-video');
-    const closeVideoModal = document.getElementById('closeVideoModal');
-
-    if (videoModal && btnWatchVideo) {
-        btnWatchVideo.addEventListener('click', (e) => {
+    // Admin Access Modals Trigger
+    if (kjrLoginLink) {
+        kjrLoginLink.addEventListener('click', (e) => {
             e.preventDefault();
-            openModal(videoModal);
+            openModal(adminModal);
         });
-        if (closeVideoModal) {
-            closeVideoModal.addEventListener('click', () => closeModal(videoModal));
-        }
+    }
+    if (closeAdminModal) {
+        closeAdminModal.addEventListener('click', () => closeModal(adminModal));
+    }
+    if (closeConsoleModal) {
+        closeConsoleModal.addEventListener('click', () => closeModal(consoleModal));
     }
 
     // Close modals on clicking backdrop overlay
     window.addEventListener('click', (e) => {
         if (e.target === quoteModal) closeModal(quoteModal);
-        if (e.target === videoModal) closeModal(videoModal);
+        if (e.target === adminModal) closeModal(adminModal);
+        if (e.target === consoleModal) closeModal(consoleModal);
     });
+
+    // 7. Leadership Team CRUD & Persistence Logic
+    const DEFAULT_TEAM = [
+        { id: "1", name: "Prasanna Chakravarthi", role: "Chief Executive Officer (CEO)", initials: "PC", bio: "Driving strategic growth, technology integrations, and expanding enterprise client operations globally." },
+        { id: "2", name: "P. Hemalatha", role: "Founder", initials: "PH", bio: "Co-established the firm’s legacy and structural framework, guiding the core ethics and long-term values." },
+        { id: "3", name: "K.J. Rajendra Prasad", role: "Founder", initials: "KP", bio: "Guiding operations scale and expansion strategy with decades of deep supply chain management expertise." },
+        { id: "4", name: "T. Sai Kiran", role: "Operations Head", initials: "SK", bio: "Managing daily logistics, dark store fulfillment networks, and last-mile SLAs across all operational cities." },
+        { id: "5", name: "Mahendra", role: "HR Partner", initials: "M", bio: "Spearheading talent recruitment, specialized operations training, and workforce scaling strategies." },
+        { id: "6", name: "Head MIS Executive", role: "Management Information Systems", initials: "ME", bio: "Managing data analytics architectures, cloud logistics databases, and operations metric reporting tools." }
+    ];
+
+    const getTeamMembers = () => {
+        const stored = localStorage.getItem('kjr_team_members');
+        if (stored) {
+            return JSON.parse(stored);
+        }
+        localStorage.setItem('kjr_team_members', JSON.stringify(DEFAULT_TEAM));
+        return DEFAULT_TEAM;
+    };
+
+    const renderTeamGrid = (members) => {
+        const teamGrid = document.getElementById('teamGrid');
+        if (!teamGrid) return;
+        teamGrid.innerHTML = '';
+        members.forEach(member => {
+            const card = document.createElement('div');
+            card.className = 'team-card';
+            card.innerHTML = `
+                <div class="team-avatar-wrapper">
+                    <div class="team-avatar-placeholder">
+                        <i data-lucide="user" class="avatar-fallback-icon"></i>
+                        <span class="avatar-initials">${member.initials}</span>
+                    </div>
+                </div>
+                <h3 class="team-name">${member.name}</h3>
+                <div class="team-role">${member.role}</div>
+                <p class="team-bio">${member.bio}</p>
+            `;
+            teamGrid.appendChild(card);
+        });
+        if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
+        }
+    };
+
+    // Load and render team members
+    const teamMembers = getTeamMembers();
+    renderTeamGrid(teamMembers);
+
+    // Admin Console login logic
+    const adminLoginForm = document.getElementById('adminLoginForm');
+    const loginErrorMsg = document.getElementById('loginErrorMsg');
+    
+    if (adminLoginForm) {
+        adminLoginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const usernameInput = document.getElementById('adminUsername').value.trim();
+            const passwordInput = document.getElementById('adminPassword').value.trim();
+            
+            if (usernameInput === 'admin' && passwordInput === 'kjrsupply') {
+                closeModal(adminModal);
+                adminLoginForm.reset();
+                if (loginErrorMsg) loginErrorMsg.style.display = 'none';
+                openModal(consoleModal);
+                renderConsoleList();
+            } else {
+                if (loginErrorMsg) loginErrorMsg.style.display = 'block';
+            }
+        });
+    }
+
+    // Admin Console Management Logic
+    const consoleTeamList = document.getElementById('consoleTeamList');
+    const consoleMemberForm = document.getElementById('consoleMemberForm');
+    const btnConsoleAddNew = document.getElementById('btn-console-add-new');
+    const btnConsoleCancel = document.getElementById('btn-console-cancel');
+    const consoleFormTitle = document.getElementById('consoleFormTitle');
+
+    const renderConsoleList = () => {
+        if (!consoleTeamList) return;
+        const members = getTeamMembers();
+        consoleTeamList.innerHTML = '';
+        members.forEach(member => {
+            const item = document.createElement('div');
+            item.className = 'console-member-item';
+            item.innerHTML = `
+                <div class="console-member-info">
+                    <span class="console-member-name">${member.name}</span>
+                    <span class="console-member-role">${member.role}</span>
+                </div>
+                <div class="console-member-actions">
+                    <button class="console-btn-edit" data-id="${member.id}">Edit</button>
+                    <button class="console-btn-delete" data-id="${member.id}">Delete</button>
+                </div>
+            `;
+            consoleTeamList.appendChild(item);
+        });
+
+        // Edit handlers
+        consoleTeamList.querySelectorAll('.console-btn-edit').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const id = btn.getAttribute('data-id');
+                const members = getTeamMembers();
+                const member = members.find(m => m.id === id);
+                if (member) {
+                    document.getElementById('editMemberId').value = member.id;
+                    document.getElementById('memberName').value = member.name;
+                    document.getElementById('memberRole').value = member.role;
+                    document.getElementById('memberInitials').value = member.initials;
+                    document.getElementById('memberBio').value = member.bio;
+                    if (consoleFormTitle) consoleFormTitle.textContent = 'Edit Member Details';
+                }
+            });
+        });
+
+        // Delete handlers
+        consoleTeamList.querySelectorAll('.console-btn-delete').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const id = btn.getAttribute('data-id');
+                if (confirm('Are you sure you want to remove this team member?')) {
+                    let members = getTeamMembers();
+                    members = members.filter(m => m.id !== id);
+                    localStorage.setItem('kjr_team_members', JSON.stringify(members));
+                    renderConsoleList();
+                    renderTeamGrid(members);
+                    resetConsoleForm();
+                }
+            });
+        });
+    };
+
+    const resetConsoleForm = () => {
+        if (consoleMemberForm) {
+            consoleMemberForm.reset();
+            document.getElementById('editMemberId').value = '';
+        }
+        if (consoleFormTitle) consoleFormTitle.textContent = 'Member Details';
+    };
+
+    if (btnConsoleAddNew) {
+        btnConsoleAddNew.addEventListener('click', () => {
+            resetConsoleForm();
+            if (consoleFormTitle) consoleFormTitle.textContent = 'Add New Member';
+        });
+    }
+
+    if (btnConsoleCancel) {
+        btnConsoleCancel.addEventListener('click', () => {
+            resetConsoleForm();
+        });
+    }
+
+    if (consoleMemberForm) {
+        consoleMemberForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const id = document.getElementById('editMemberId').value;
+            const name = document.getElementById('memberName').value.trim();
+            const role = document.getElementById('memberRole').value.trim();
+            const initials = document.getElementById('memberInitials').value.trim().toUpperCase();
+            const bio = document.getElementById('memberBio').value.trim();
+
+            let members = getTeamMembers();
+
+            if (id) {
+                // Edit existing member
+                members = members.map(m => {
+                    if (m.id === id) {
+                        return { id, name, role, initials, bio };
+                    }
+                    return m;
+                });
+            } else {
+                // Add new member
+                const newMember = {
+                    id: Date.now().toString(),
+                    name,
+                    role,
+                    initials,
+                    bio
+                };
+                members.push(newMember);
+            }
+
+            localStorage.setItem('kjr_team_members', JSON.stringify(members));
+            renderConsoleList();
+            renderTeamGrid(members);
+            resetConsoleForm();
+        });
+    }
 
 
     // 6. KJR Dashboard Visual Animations
