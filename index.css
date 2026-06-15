@@ -214,24 +214,49 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* Logo Design */
-.logo {
+.logo, .footer-logo {
     display: flex;
     align-items: center;
+    gap: 12px;
     font-family: var(--font-heading);
+    text-decoration: none;
+}
+
+.logo-icon {
+    height: 48px;
+    width: auto;
+    display: block;
+    filter: drop-shadow(0 0 8px rgba(255, 106, 0, 0.15));
+    transition: var(--transition-normal);
+}
+
+.logo:hover .logo-icon, .footer-logo:hover .logo-icon {
+    transform: scale(1.05);
+    filter: drop-shadow(0 0 12px rgba(255, 106, 0, 0.3));
+}
+
+.logo-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    line-height: 1.15;
+}
+
+.logo-title {
     font-size: 1.4rem;
-    letter-spacing: -0.03em;
-}
-
-.logo-text-bold {
     font-weight: 900;
-    color: var(--accent);
-    margin-right: 4px;
-    text-shadow: 0 0 10px rgba(255, 106, 0, 0.3);
+    color: var(--text-primary);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
 }
 
-.logo-text-light {
-    font-weight: 500;
-    color: var(--text-primary);
+.logo-subtitle {
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    margin-top: 2px;
 }
 
 /* Navigation Menu */
