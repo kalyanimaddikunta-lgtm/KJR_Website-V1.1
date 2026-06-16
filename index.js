@@ -171,7 +171,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const adminModal = document.getElementById('adminModal');
     const headerLoginBtn = document.getElementById('headerLoginBtn');
     const mobileLoginBtn = document.getElementById('mobileLoginBtn');
-    const kjrLoginLink = document.getElementById('kjrLoginLink');
     const closeAdminModal = document.getElementById('closeAdminModal');
     
     const consoleModal = document.getElementById('consoleModal');
@@ -211,7 +210,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (headerLoginBtn) headerLoginBtn.addEventListener('click', openAdminPortal);
     if (mobileLoginBtn) mobileLoginBtn.addEventListener('click', openAdminPortal);
-    if (kjrLoginLink) kjrLoginLink.addEventListener('click', openAdminPortal);
 
     if (closeAdminModal) {
         closeAdminModal.addEventListener('click', () => closeModal(adminModal));
