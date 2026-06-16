@@ -2372,4 +2372,68 @@ body.light-theme .form-group select option {
     color: #0f172a;
 }
 
+/* Industries Add-on Banner */
+.addon-banner {
+    grid-column: span 3;
+    margin-top: 50px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 30px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 24px;
+    transition: var(--transition-normal);
+}
+
+.addon-banner:hover {
+    border-color: var(--border-hover);
+    transform: translateY(-3px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4), 0 0 25px rgba(255, 106, 0, 0.05);
+}
+
+.addon-banner-content h3 {
+    font-size: 1.45rem;
+    margin-bottom: 8px;
+    font-family: var(--font-heading);
+    color: var(--text-primary);
+}
+
+.addon-banner-content p {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    max-width: 600px;
+}
+
+body.light-theme .addon-banner {
+    background: var(--bg-secondary);
+    border-color: var(--border-color);
+}
+
+@media (max-width: 1024px) {
+    .addon-banner {
+        grid-column: span 2;
+    }
+}
+
+@media (max-width: 768px) {
+    .addon-banner {
+        grid-column: span 2;
+        padding: 24px 20px;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .addon-banner .btn {
+        width: 100%;
+    }
+}
+
+@media (max-width: 580px) {
+    .addon-banner {
+        grid-column: span 2;
+    }
+}
+
 

@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Detailed supply chain logistics execution, dark store operations, and routing SLAs by KJR.">
+    <title>Learn More - KJR Supply Chain Solutions</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="env.js"></script>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+
+    <!-- Header / Navbar -->
+    <header class="header" id="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <img src="assets/logo.svg" alt="KJR Logo" class="logo-icon" id="navLogoImg">
+                <div class="logo-text">
+                    <span class="logo-title" id="navLogoTitle">KJR</span>
+                    <span class="logo-subtitle" id="navLogoSubtitle">Supply Chain Solutions</span>
+                </div>
+            </a>
+            <nav class="nav-menu" id="navMenu">
+                <a href="index.html#solutions" class="nav-link">Solutions</a>
+                <a href="index.html#industries" class="nav-link">Industries</a>
+                <a href="index.html#technology" class="nav-link">Technology</a>
+                <a href="index.html#about" class="nav-link">About Us</a>
+                <a href="index.html#contact-footer" class="nav-link">Contact</a>
+                <a href="#" class="btn btn-primary nav-cta-mobile" id="nav-cta-btn-mobile">Request Quote</a>
+                <a href="#" class="nav-link mobile-login-link" id="mobileLoginBtn" style="margin-top: 15px; color: var(--accent); font-weight: 700; border-top: 1px solid var(--border-color); padding-top: 15px; width: 100%; text-align: center;">KJR Login</a>
+            </nav>
+            <div class="nav-actions">
+                <button class="theme-toggle-btn" id="themeToggleBtn" aria-label="Toggle Theme">
+                    <i data-lucide="sun" class="theme-icon theme-icon-sun"></i>
+                    <i data-lucide="moon" class="theme-icon theme-icon-moon"></i>
+                </button>
+                <button class="btn btn-outline nav-login-btn" id="headerLoginBtn" style="padding: 8px 16px; font-size: 0.85rem; margin-right: 8px;">KJR Login</button>
+                <a href="#" class="btn btn-primary nav-cta" id="nav-cta-btn">Request Quote</a>
+                <button class="menu-toggle" id="menuToggle" aria-label="Toggle Menu">
+                    <i data-lucide="menu" class="menu-icon"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Subpage Hero Header -->
+    <section class="hero-section" style="padding: 160px 0 60px; min-height: auto;">
+        <div class="hero-bg-glow"></div>
+        <div class="container hero-container" style="grid-template-columns: 1fr; gap: 20px;">
+            <div class="hero-content" style="max-width: 800px; margin: 0 auto; text-align: center;">
+                <div class="badge-container" style="justify-content: center; display: flex;">
+                    <span class="badge"><i data-lucide="info" class="badge-icon"></i> Logistics Deep Dive</span>
+                </div>
+                <h1 class="hero-title" style="font-size: 3.25rem;">
+                    Expanded <span class="highlight-orange">Operations</span> & SLAs.
+                </h1>
+                <p class="hero-subtitle" style="margin-left: auto; margin-right: auto; font-size: 1.15rem;">
+                    A granular breakdown of KJR's delivery execution layers, micro-fulfillment architecture, and tech-driven quality indicators.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Detailed Content Grid -->
+    <section class="solutions-section" style="padding: 60px 0 120px;">
+        <div class="container">
+            <div class="solutions-grid" style="grid-template-columns: repeat(2, 1fr);">
+                <!-- Detail Card 1 -->
+                <div class="solution-card">
+                    <div class="card-glow"></div>
+                    <div class="solution-icon-box">
+                        <i data-lucide="store" class="solution-icon"></i>
+                    </div>
+                    <h3 class="solution-title">Dark Store Architecture</h3>
+                    <p class="solution-desc" style="font-size: 0.95rem; line-height: 1.6;">
+                        Our hyper-local dark store nodes are structured inside major urban corridors to shorten the last-mile radius. Utilizing localized demand mapping and intelligent bin placement layouts, staff can process inbound picking and consolidation commands in under 3 minutes.
+                    </p>
+                    <ul style="list-style: none; display: flex; flex-direction: column; gap: 10px; font-size: 0.9rem; color: var(--text-secondary);">
+                        <li style="display: flex; align-items: center; gap: 8px;"><i data-lucide="check" style="width: 16px; height: 16px; color: var(--accent);"></i> 3-Minute Pick & Sort SLA compliance</li>
+                        <li style="display: flex; align-items: center; gap: 8px;"><i data-lucide="check" style="width: 16px; height: 16px; color: var(--accent);"></i> FIFO inventory tracking models</li>
+                        <li style="display: flex; align-items: center; gap: 8px;"><i data-lucide="check" style="width: 16px; height: 16px; color: var(--accent);"></i> Ambient/Chilled compartmental storage</li>
+                    </ul>
+                </div>
+
+                <!-- Detail Card 2 -->
+                <div class="solution-card">
+                    <div class="card-glow"></div>
+                    <div class="solution-icon-box">
+                        <i data-lucide="navigation" class="solution-icon"></i>
+                    </div>
+                    <h3 class="solution-title">Transit Load Dispatching</h3>
+                    <p class="solution-desc" style="font-size: 0.95rem; line-height: 1.6;">
+                        Vehicles are dispatched based on density sequencing models. Driver terminals receive optimized drop-off sequences linked to real-time city routing patterns, eliminating detention wait times at central depots and maintaining delivery timelines.
+                    </p>
+                    <ul style="list-style: none; display: flex; flex-direction: column; gap: 10px; font-size: 0.9rem; color: var(--text-secondary);">
+                        <li style="display: flex; align-items: center; gap: 8px;"><i data-lucide="check" style="width: 16px; height: 16px; color: var(--accent);"></i> Real-Time dynamic route redirection</li>
+                        <li style="display: flex; align-items: center; gap: 8px;"><i data-lucide="check" style="width: 16px; height: 16px; color: var(--accent);"></i> Geofenced load lock and arrival alerts</li>
+                        <li style="display: flex; align-items: center; gap: 8px;"><i data-lucide="check" style="width: 16px; height: 16px; color: var(--accent);"></i> Multi-drop delivery scheduling</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 50px;">
+                <a href="index.html" class="btn btn-outline" style="padding: 12px 28px;"><i data-lucide="arrow-left" class="btn-icon"></i> Back to Homepage</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer & Contact Details -->
+    <footer class="footer" id="contact-footer">
+        <div class="container footer-grid">
+            <div class="footer-col branding-col">
+                <a href="index.html" class="footer-logo">
+                    <img src="assets/logo.svg" alt="KJR Logo" class="logo-icon" id="footerLogoImg">
+                    <div class="logo-text">
+                        <span class="logo-title" id="footerLogoTitle">KJR</span>
+                        <span class="logo-subtitle" id="footerLogoSubtitle">Supply Chain Solutions</span>
+                    </div>
+                </a>
+                <p class="footer-tagline">Rooted in Legacy. Built for Modern Supply Chains.</p>
+                <div class="social-links">
+                    <a href="#" aria-label="LinkedIn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide-custom"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+                    </a>
+                    <a href="#" aria-label="Twitter">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide-custom"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg>
+                    </a>
+                    <a href="#" aria-label="Facebook">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide-custom"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+                    </a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4 class="footer-title">Company</h4>
+                <ul class="footer-links">
+                    <li><a href="index.html#about">About Us</a></li>
+                    <li><a href="index.html#about">Careers</a></li>
+                    <li><a href="index.html#technology">Technology</a></li>
+                    <li><a href="index.html#solutions">Core Pillars</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4 class="footer-title">Solutions</h4>
+                <ul class="footer-links">
+                    <li><a href="index.html#solutions">Dark Stores</a></li>
+                    <li><a href="index.html#solutions">Transportation</a></li>
+                    <li><a href="index.html#solutions">Warehousing</a></li>
+                    <li><a href="index.html#solutions">Execution Plan</a></li>
+                </ul>
+            </div>
+            <div class="footer-col contact-col">
+                <h4 class="footer-title">Contact Us</h4>
+                <ul class="footer-contact-list">
+                    <li>
+                        <i data-lucide="phone" class="contact-icon"></i>
+                        <div>
+                            <span class="contact-label">Phone</span>
+                            <a href="tel:+919182130369" class="contact-value" id="footerPhone">+91 91821 30369</a>
+                        </div>
+                    </li>
+                    <li>
+                        <i data-lucide="mail" class="contact-icon"></i>
+                        <div>
+                            <span class="contact-label">Email</span>
+                            <a href="mailto:admin@kjrsupplychain.com" class="contact-value" id="footerEmail">admin@kjrsupplychain.com</a>
+                        </div>
+                    </li>
+                    <li>
+                        <i data-lucide="map-pinned" class="contact-icon"></i>
+                        <div>
+                            <span class="contact-label">Headquarters</span>
+                            <span class="contact-value text-muted" id="footerAddress">Hyderabad, Telangana, India</span>
+                        </div>
+                    </li>
+                    <li>
+                        <i data-lucide="file-text" class="contact-icon"></i>
+                        <div>
+                            <span class="contact-label">GSTIN</span>
+                            <span class="contact-value text-muted" id="footerGst">36AAAAC1234A1Z1</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container footer-bottom-flex">
+                <p class="copyright">&copy; 2026 KJR Supply Chain Solutions. All rights reserved.</p>
+                <div class="footer-policy-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Request Quote Modal -->
+    <div class="modal-overlay" id="quoteModal">
+        <div class="modal-card">
+            <button class="modal-close" id="closeQuoteModal" aria-label="Close Modal">
+                <i data-lucide="x"></i>
+            </button>
+            <div class="modal-header">
+                <h3 class="modal-title">Request a Custom Quote</h3>
+                <p class="modal-subtitle">Provide details about your operations to get a tailormade supply chain plan.</p>
+            </div>
+            <form id="quoteForm" class="modal-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="clientName">Your Name *</label>
+                        <input type="text" id="clientName" required placeholder="John Doe">
+                    </div>
+                    <div class="form-group">
+                        <label for="companyName">Company Name *</label>
+                        <input type="text" id="companyName" required placeholder="Acme Logistics">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="clientEmail">Email Address *</label>
+                        <input type="email" id="clientEmail" required placeholder="john@company.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="clientPhone">Phone Number *</label>
+                        <input type="tel" id="clientPhone" required placeholder="+91 XXXXX XXXXX">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="serviceType">Primary Solution Required</label>
+                    <select id="serviceType">
+                        <option value="dark-store">Dark Store Operations</option>
+                        <option value="transportation">Transportation Management</option>
+                        <option value="execution">Supply Chain Execution</option>
+                        <option value="end-to-end">End-to-End Solutions</option>
+                        <option value="other">Other / Custom Mix</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="operationalScale">Approx. Daily Deliveries</label>
+                    <select id="operationalScale">
+                        <option value="small">Less than 500</option>
+                        <option value="medium">500 - 2,000</option>
+                        <option value="large">2,000 - 10,000</option>
+                        <option value="enterprise">10,000+ / Enterprise</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="message">Operations Context & Requirements</label>
+                    <textarea id="message" rows="3" placeholder="Tell us about your city coverage, warehouse footprint, or operational pain points..."></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Submit Request</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Admin Login Modal -->
+    <div class="modal-overlay" id="adminModal">
+        <div class="modal-card">
+            <button class="modal-close" id="closeAdminModal" aria-label="Close Modal">
+                <i data-lucide="x"></i>
+            </button>
+            <div id="loginStepCredentials">
+                <div class="modal-header">
+                    <h3 class="modal-title">KJR Internal Portal</h3>
+                    <p class="modal-subtitle">Log in with corporate credentials to manage site settings.</p>
+                </div>
+                <form id="adminLoginForm" class="modal-form">
+                    <div class="form-group">
+                        <label for="adminUsername">Username</label>
+                        <input type="text" id="adminUsername" required placeholder="Enter username">
+                    </div>
+                    <div class="form-group">
+                        <label for="adminPassword">Password</label>
+                        <input type="password" id="adminPassword" required placeholder="••••••••">
+                    </div>
+                    <div id="loginErrorMsg" class="error-msg" style="display:none; color:#ef4444; font-size:0.85rem; font-weight:600; margin-top:-10px;">Invalid username or password.</div>
+                    <button type="submit" class="btn btn-primary btn-block">Request OTP</button>
+                </form>
+            </div>
+            
+            <div id="loginStepOtp" style="display: none;">
+                <div class="modal-header">
+                    <h3 class="modal-title">Enter OTP Code</h3>
+                    <p class="modal-subtitle" id="otpNotice">A 6-digit code has been sent to your email.</p>
+                </div>
+                <form id="adminOtpForm" class="modal-form">
+                    <div class="form-group">
+                        <label for="otpCode">Verification Code</label>
+                        <input type="text" id="otpCode" required placeholder="######" maxlength="6" style="text-align: center; font-size: 1.5rem; letter-spacing: 0.3em; font-weight: 700;">
+                    </div>
+                    <div id="otpErrorMsg" class="error-msg" style="display:none; color:#ef4444; font-size:0.85rem; font-weight:600; margin-top:-10px;">Incorrect OTP code. Please try again.</div>
+                    <button type="submit" class="btn btn-primary btn-block">Verify & Enter Console</button>
+                    <button type="button" class="btn btn-outline btn-block" id="btnBackToLogin" style="margin-top: 10px;">Back to Login</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Console Modal -->
+    <div class="modal-overlay" id="consoleModal">
+        <div class="modal-card console-card" style="max-width: 900px; display: flex; flex-direction: column; height: 85vh; padding: 30px;">
+            <button class="modal-close" id="closeConsoleModal" aria-label="Close Modal">
+                <i data-lucide="x"></i>
+            </button>
+            <div class="modal-header" style="margin-bottom: 20px;">
+                <h3 class="modal-title">KJR Console Panel</h3>
+                <p class="modal-subtitle">Modify leadership, customize contact parameters, and review client request forms.</p>
+            </div>
+            <div class="console-tabs" style="display: flex; gap: 10px; border-bottom: 1px solid var(--border-color); padding-bottom: 12px; margin-bottom: 20px;">
+                <button class="btn console-tab-btn active" data-tab="tab-team" style="padding: 6px 16px; font-size: 0.85rem; border-radius: 4px;">Leadership Team</button>
+                <button class="btn console-tab-btn" data-tab="tab-settings" style="padding: 6px 16px; font-size: 0.85rem; border-radius: 4px;">Site Settings</button>
+                <button class="btn console-tab-btn" data-tab="tab-quotes" style="padding: 6px 16px; font-size: 0.85rem; border-radius: 4px;">Quote Requests (<span id="consoleQuoteCount">0</span>)</button>
+            </div>
+            <div class="console-tab-container" style="flex: 1; overflow: hidden; display: flex; min-height: 0;">
+                <!-- TAB 1: LEADERSHIP TEAM -->
+                <div class="console-tab-content active" id="tab-team" style="display: flex; gap: 20px; width: 100%; height: 100%;">
+                    <div class="console-list-panel" style="flex: 1; overflow-y: auto; border-right: 1px solid var(--border-color); padding-right: 15px; display: flex; flex-direction: column;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                            <span style="font-weight: 700; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-secondary);">Team Members</span>
+                            <button class="btn btn-outline" id="btn-console-add-new" style="padding: 4px 10px; font-size: 0.8rem;">+ Add New</button>
+                        </div>
+                        <div id="consoleTeamList" style="display: flex; flex-direction: column; gap: 8px; flex: 1; overflow-y: auto;"></div>
+                    </div>
+                    <div class="console-edit-panel" style="flex: 1.2; display: flex; flex-direction: column; overflow-y: auto;">
+                        <span style="font-weight: 700; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-secondary); margin-bottom: 15px;" id="consoleFormTitle">Member Details</span>
+                        <form id="consoleMemberForm" style="display: flex; flex-direction: column; gap: 12px; flex: 1;">
+                            <input type="hidden" id="editMemberId">
+                            <div class="form-group">
+                                <label for="memberName">Full Name *</label>
+                                <input type="text" id="memberName" required placeholder="e.g. John Doe">
+                            </div>
+                            <div class="form-group">
+                                <label for="memberRole">Role *</label>
+                                <input type="text" id="memberRole" required placeholder="e.g. Chief Operations Officer">
+                            </div>
+                            <div class="form-group">
+                                <label for="memberInitials">Avatar Initials *</label>
+                                <input type="text" id="memberInitials" required placeholder="e.g. JD" maxlength="3">
+                            </div>
+                            <div class="form-group">
+                                <label for="memberPhoto">Avatar Photo (Optional)</label>
+                                <input type="file" id="memberPhoto" accept="image/*" style="font-size: 0.85rem;">
+                                <input type="hidden" id="memberPhotoBase64">
+                                <div id="photoPreviewContainer" style="display: none; align-items: center; gap: 10px; margin-top: 5px;">
+                                    <img id="photoPreview" src="" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 1px solid var(--border-color);">
+                                    <button type="button" class="btn btn-outline" id="btnRemovePhoto" style="padding: 2px 8px; font-size: 0.75rem; color: #ef4444; border-color: #ef4444;">Remove Photo</button>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="memberBio">Brief Bio *</label>
+                                <textarea id="memberBio" rows="3" required placeholder="Describe their experience..."></textarea>
+                            </div>
+                            <div style="display: flex; gap: 10px; margin-top: 10px; justify-content: flex-end;">
+                                <button type="button" class="btn btn-outline" id="btn-console-cancel" style="padding: 8px 16px;">Cancel</button>
+                                <button type="submit" class="btn btn-primary" style="padding: 8px 20px;">Save Changes</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- TAB 2: SITE SETTINGS -->
+                <div class="console-tab-content" id="tab-settings" style="display: none; width: 100%; height: 100%; overflow-y: auto;">
+                    <form id="consoleSettingsForm" style="display: flex; flex-direction: column; gap: 15px; width: 100%;">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="settingLogoTitle">Logo Title</label>
+                                <input type="text" id="settingLogoTitle" required placeholder="e.g. KJR">
+                            </div>
+                            <div class="form-group">
+                                <label for="settingLogoSubtitle">Logo Subtitle</label>
+                                <input type="text" id="settingLogoSubtitle" required placeholder="e.g. Supply Chain Solutions">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="settingLogoImage">Custom Logo Image (Optional Upload)</label>
+                            <input type="file" id="settingLogoImage" accept="image/*" style="font-size: 0.85rem;">
+                            <input type="hidden" id="settingLogoImageBase64">
+                            <div id="logoPreviewContainer" style="display: none; align-items: center; gap: 10px; margin-top: 5px;">
+                                <img id="logoPreview" src="" style="height: 35px; width: auto; object-fit: contain;">
+                                <button type="button" class="btn btn-outline" id="btnRemoveLogoImage" style="padding: 2px 8px; font-size: 0.75rem; color: #ef4444; border-color: #ef4444;">Reset to Default SVG</button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="settingAbout">About Us Legacy Description</label>
+                            <textarea id="settingAbout" rows="3" required placeholder="Legacy details..."></textarea>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="settingPhone">Contact Phone Number</label>
+                                <input type="text" id="settingPhone" required placeholder="e.g. +91 91821 30369">
+                            </div>
+                            <div class="form-group">
+                                <label for="settingEmail">Contact Email Address</label>
+                                <input type="email" id="settingEmail" required placeholder="e.g. admin@kjrsupplychain.com">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="settingAddress">Headquarters Address</label>
+                                <input type="text" id="settingAddress" required placeholder="e.g. Hyderabad, India">
+                            </div>
+                            <div class="form-group">
+                                <label for="settingGst">GST Registration Number</label>
+                                <input type="text" id="settingGst" required placeholder="e.g. 36AAAAC1234A1Z1">
+                            </div>
+                        </div>
+                        <div style="display: flex; justify-content: flex-end; margin-top: 10px;">
+                            <button type="submit" class="btn btn-primary" style="padding: 10px 30px;">Save Settings</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- TAB 3: QUOTE REQUESTS -->
+                <div class="console-tab-content" id="tab-quotes" style="display: none; width: 100%; height: 100%; overflow-y: auto; flex-direction: column;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                        <span style="font-weight: 700; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-secondary);">Client Submissions Log</span>
+                        <button class="btn btn-outline" id="btn-console-clear-quotes" style="padding: 4px 10px; font-size: 0.8rem; color: #ef4444; border-color: #ef4444;">Clear All Logs</button>
+                    </div>
+                    <div id="consoleQuotesContainer" style="flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 10px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="index.js"></script>
+</body>
+</html>
