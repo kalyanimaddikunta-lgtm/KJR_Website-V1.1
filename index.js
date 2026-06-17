@@ -337,18 +337,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 9. Leadership Team CRUD & Photos Logic
     const DEFAULT_TEAM = [
-        { id: "1", name: "Prasanna Chakravarthi", role: "Chief Executive Officer (CEO)", initials: "PC", bio: "Driving strategic growth, technology integrations, and expanding enterprise client operations globally.", photo: "" },
-        { id: "2", name: "P. Hemalatha", role: "Founder", initials: "PH", bio: "Co-established the firm’s legacy and structural framework, guiding the core ethics and long-term values.", photo: "" },
-        { id: "3", name: "K.J. Rajendra Prasad", role: "Founder", initials: "KP", bio: "Guiding operations scale and expansion strategy with decades of deep supply chain management expertise.", photo: "" },
-        { id: "4", name: "T. Sai Kiran", role: "Operations Head", initials: "SK", bio: "Managing daily logistics, dark store fulfillment networks, and last-mile SLAs across all operational cities.", photo: "" },
-        { id: "5", name: "Mahendra", role: "HR Partner", initials: "M", bio: "Spearheading talent recruitment, specialized operations training, and workforce scaling strategies.", photo: "" },
-        { id: "6", name: "Head MIS Executive", role: "Management Information Systems", initials: "ME", bio: "Managing data analytics architectures, cloud logistics databases, and operations metric reporting tools.", photo: "" }
+        { id: "1", name: "K.J. Rajendra Prasad", role: "Founder", initials: "KP", bio: "Guiding operations scale and expansion strategy with decades of deep supply chain management expertise.", photo: "" },
+        { id: "2", name: "P. Hemalatha", role: "Cofounder", initials: "PH", bio: "Co-established the firm’s legacy and structural framework, guiding the core ethics and long-term values.", photo: "" }
     ];
 
     const getTeamMembers = () => {
         const stored = localStorage.getItem('kjr_team_members');
         if (stored) {
-            return JSON.parse(stored);
+            try {
+                const parsed = JSON.parse(stored);
+                const hasOldMember = parsed.some(m => m.name === "Prasanna Chakravarthi" || m.role === "Chief Executive Officer (CEO)");
+                const hasHemaAsFounder = parsed.some(m => m.name === "P. Hemalatha" && m.role === "Founder");
+                
+                if (hasOldMember || hasHemaAsFounder || parsed.length !== 2) {
+                    localStorage.setItem('kjr_team_members', JSON.stringify(DEFAULT_TEAM));
+                    return DEFAULT_TEAM;
+                }
+                return parsed;
+            } catch (e) {
+                // Fallback to default
+            }
         }
         localStorage.setItem('kjr_team_members', JSON.stringify(DEFAULT_TEAM));
         return DEFAULT_TEAM;
@@ -362,18 +370,20 @@ document.addEventListener('DOMContentLoaded', () => {
             const card = document.createElement('div');
             card.className = 'team-card';
             
-            // Build avatar HTML based on whether photo is present
-            let avatarHtml = `<i data-lucide="user" class="avatar-fallback-icon"></i><span class="avatar-initials">${member.initials}</span>`;
+            // Build avatar HTML based on whether photo is present. Omit wrapper completely if no photo is set.
+            let avatarHtml = '';
             if (member.photo) {
-                avatarHtml = `<img src="${member.photo}" class="team-avatar-img" alt="${member.name}">`;
+                avatarHtml = `
+                    <div class="team-avatar-wrapper">
+                        <div class="team-avatar-placeholder">
+                            <img src="${member.photo}" class="team-avatar-img" alt="${member.name}">
+                        </div>
+                    </div>
+                `;
             }
 
             card.innerHTML = `
-                <div class="team-avatar-wrapper">
-                    <div class="team-avatar-placeholder">
-                        ${avatarHtml}
-                    </div>
-                </div>
+                ${avatarHtml}
                 <h3 class="team-name">${member.name}</h3>
                 <div class="team-role">${member.role}</div>
                 <p class="team-bio">${member.bio}</p>
