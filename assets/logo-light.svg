@@ -27,29 +27,63 @@
   </defs>
 
   <g id="kjr-logo-mark">
-    <!-- 1. SWEEPING ROAD (BOTTOM) -->
+    <!-- 1. SOLID HIGHWAY SWEEPING ROAD (BOTTOM) - Rendered behind letters -->
     <g id="sweeping-road">
-      <!-- Curved Road Body (3 Orange Lanes) -->
-      <path d="M 25,123 C 65,145 130,147 210,123" stroke="url(#orangeGrad)" stroke-width="4.5" fill="none" stroke-linecap="round" />
-      <path d="M 25,127 C 65,150 130,152 195,128" stroke="url(#orangeGrad)" stroke-width="2.5" fill="none" stroke-linecap="round" />
-      <path d="M 25,131 C 65,155 130,157 180,133" stroke="url(#orangeGrad)" stroke-width="1.2" fill="none" stroke-linecap="round" />
+      <!-- Road Deck (Solid slate/charcoal color with perspective) -->
+      <path d="M 25,123 Q 90,147 260,113 L 260,119 Q 90,154 25,138 Z" fill="#0f121d" opacity="0.95" />
       
-      <!-- Perspective Lane Dashes -->
-      <path d="M 30,125 C 65,147 130,149 200,125" stroke="#f8fafc" stroke-width="1.5" stroke-dasharray="3, 8" fill="none" stroke-linecap="round" opacity="0.6" />
+      <!-- Road Outer Borders (Solid Orange Lines) -->
+      <path d="M 25,123 Q 90,147 260,113" stroke="url(#orangeGrad)" stroke-width="2.2" fill="none" stroke-linecap="round" />
+      <path d="M 25,138 Q 90,154 260,119" stroke="url(#orangeGrad)" stroke-width="2.2" fill="none" stroke-linecap="round" />
+      
+      <!-- Highway Dash Lanes (Dashed Yellow/Orange Line in perspective) -->
+      <path d="M 25,130.5 Q 90,150.5 260,116" stroke="#ffb057" stroke-width="1.2" stroke-dasharray="3, 8" fill="none" stroke-linecap="round" opacity="0.85" />
     </g>
 
-    <!-- 2. BUILDING WIREFRAME (LEFT) -->
-    <!-- Glowing internal orange windows -->
-    <g id="building-glowing-windows" fill="url(#orangeGrad)" opacity="0.95">
-      <path d="M 60,112 L 80,103 L 80,121 L 60,128 Z" />
-      <path d="M 80,103 L 95,95 L 95,110 L 80,121 Z" />
-      <path d="M 60,98 L 80,89 L 80,103 L 60,112 Z" />
-      <path d="M 80,89 L 95,81 L 95,95 L 80,103 Z" />
-      <path d="M 60,84 L 80,75 L 80,89 L 60,98 Z" />
-      <path d="M 80,75 L 95,67 L 95,81 L 80,89 Z" />
+    <!-- 2. STACKED 3D BUILDING BLOCKS (LEFT) -->
+    <g id="building-glowing-windows" opacity="0.95">
+      <!-- BLOCK B (Bottom-Right) -->
+      <!-- Top Face -->
+      <path d="M 75,90 L 60,97 L 75,104 L 90,97 Z" fill="url(#orangeGrad)" />
+      <!-- Left Face -->
+      <path d="M 60,97 L 60,115 L 75,122 L 75,104 Z" fill="#ff6a00" />
+      <!-- Right Face -->
+      <path d="M 75,104 L 75,122 L 90,115 L 90,97 Z" fill="#cc5200" />
+
+      <!-- BLOCK E (Center-Right, Stacked on top of B) -->
+      <!-- Top Face -->
+      <path d="M 75,70 L 60,77 L 75,84 L 90,77 Z" fill="url(#orangeGrad)" />
+      <!-- Left Face -->
+      <path d="M 60,77 L 60,95 L 75,102 L 75,84 Z" fill="#ff6a00" />
+      <!-- Right Face -->
+      <path d="M 75,84 L 75,102 L 90,95 L 90,77 Z" fill="#cc5200" />
+
+      <!-- BLOCK A (Bottom-Left) -->
+      <!-- Top Face -->
+      <path d="M 45,100 L 30,107 L 45,114 L 60,107 Z" fill="url(#orangeGrad)" />
+      <!-- Left Face -->
+      <path d="M 30,107 L 30,125 L 45,132 L 45,114 Z" fill="#ff6a00" />
+      <!-- Right Face -->
+      <path d="M 45,114 L 45,132 L 60,125 L 60,107 Z" fill="#cc5200" />
+
+      <!-- BLOCK D (Center-Left, Stacked on top of A) -->
+      <!-- Top Face -->
+      <path d="M 45,80 L 30,87 L 45,94 L 60,87 Z" fill="url(#orangeGrad)" />
+      <!-- Left Face -->
+      <path d="M 30,87 L 30,105 L 45,112 L 45,94 Z" fill="#ff6a00" />
+      <!-- Right Face -->
+      <path d="M 45,94 L 45,112 L 60,105 L 60,87 Z" fill="#cc5200" />
+
+      <!-- BLOCK C (Top-Middle, Step stack) -->
+      <!-- Top Face -->
+      <path d="M 60,75 L 45,82 L 60,89 L 75,82 Z" fill="url(#orangeGrad)" />
+      <!-- Left Face -->
+      <path d="M 45,82 L 45,100 L 60,107 L 60,89 Z" fill="#ff6a00" />
+      <!-- Right Face -->
+      <path d="M 60,89 L 60,107 L 75,100 L 75,82 Z" fill="#cc5200" />
     </g>
 
-    <!-- Building Wireframe Grid Lines (Slate/Dark Gray for Light Mode) -->
+    <!-- 3. Building Wireframe Grid Lines (Slate/Dark Gray for Light Mode) -->
     <g id="building-grid" stroke="#475569" stroke-width="0.85" opacity="0.45" fill="none">
       <line x1="25" y1="88" x2="25" y2="114" />
       <line x1="42" y1="73" x2="42" y2="121" />
@@ -70,7 +104,7 @@
       <path d="M 25,88 L 60,58 L 95,88" />
     </g>
 
-    <!-- 3. FRAMING LINES -->
+    <!-- 4. FRAMING LINES -->
     <!-- Top-Left Frame (Dark Gray) -->
     <path d="M 175,25 L 105,25 L 105,65" stroke="#334155" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.75" />
     <!-- Top-Right Frame (Orange) -->
@@ -78,7 +112,7 @@
     <!-- Bottom-Right Frame (Dark Gray) -->
     <path d="M 290,85 L 290,115 L 195,115" stroke="#334155" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.75" />
 
-    <!-- 4. LETTERS (WITH SHADOW FILTER) -->
+    <!-- 5. LETTERS (WITH SHADOW FILTER) -->
     <g id="letters-group" filter="url(#dropShadow)">
       <!-- LETTER K -->
       <path d="M 125,35 L 142,35 L 142,68 L 175,35 L 194,35 L 153,74 L 196,115 L 176,115 L 142,80 L 142,115 L 125,115 Z" 
