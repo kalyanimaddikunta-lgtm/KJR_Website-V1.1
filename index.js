@@ -269,13 +269,23 @@ document.addEventListener('DOMContentLoaded', () => {
         phone: "+91 91821 30369",
         email: "admin@kjrsupplychain.com",
         address: "Hyderabad, Telangana, India",
-        gst: "36AAAAC1234A1Z1"
+        gst: "37ABEFK5980C1Z8"
     };
 
     function getSiteSettings() {
         const stored = localStorage.getItem('kjr_site_settings');
         if (stored) {
-            return JSON.parse(stored);
+            try {
+                const parsed = JSON.parse(stored);
+                // Auto-migrate if the stored settings contain the old placeholder GSTIN
+                if (parsed.gst === "36AAAAC1234A1Z1") {
+                    parsed.gst = "37ABEFK5980C1Z8";
+                    localStorage.setItem('kjr_site_settings', JSON.stringify(parsed));
+                }
+                return parsed;
+            } catch (e) {
+                // Fallback to default
+            }
         }
         localStorage.setItem('kjr_site_settings', JSON.stringify(DEFAULT_SETTINGS));
         return DEFAULT_SETTINGS;
