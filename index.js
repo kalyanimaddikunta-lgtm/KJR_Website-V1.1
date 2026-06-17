@@ -337,7 +337,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 9. Leadership Team CRUD & Photos Logic
     const DEFAULT_TEAM = [
-        { id: "1", name: "K.J. Rajendra Prasad", role: "Founder", initials: "KP", bio: "Guiding operations scale and expansion strategy with decades of deep supply chain management expertise.", photo: "" },
+        { id: "1", name: "K.J.R. Prasad Babu", role: "Founder", initials: "KPB", bio: "Guiding operations scale and expansion strategy with decades of deep supply chain management expertise.", photo: "" },
         { id: "2", name: "P. Hemalatha", role: "Cofounder", initials: "PH", bio: "Co-established the firm’s legacy and structural framework, guiding the core ethics and long-term values.", photo: "" }
     ];
 
@@ -348,8 +348,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 const parsed = JSON.parse(stored);
                 const hasOldMember = parsed.some(m => m.name === "Prasanna Chakravarthi" || m.role === "Chief Executive Officer (CEO)");
                 const hasHemaAsFounder = parsed.some(m => m.name === "P. Hemalatha" && m.role === "Founder");
+                const hasOldFounderName = parsed.some(m => m.name === "K.J. Rajendra Prasad");
                 
-                if (hasOldMember || hasHemaAsFounder || parsed.length !== 2) {
+                if (hasOldMember || hasHemaAsFounder || hasOldFounderName || parsed.length !== 2) {
                     localStorage.setItem('kjr_team_members', JSON.stringify(DEFAULT_TEAM));
                     return DEFAULT_TEAM;
                 }
@@ -384,8 +385,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             card.innerHTML = `
                 ${avatarHtml}
-                <h3 class="team-name">${member.name}</h3>
-                <div class="team-role">${member.role}</div>
+                <div class="team-role" style="margin-bottom: 8px;">${member.role}</div>
+                <h3 class="team-name" style="font-size: 1.45rem; margin-bottom: 16px; font-weight: 800; color: var(--text-primary);">${member.name}</h3>
                 <p class="team-bio">${member.bio}</p>
             `;
             teamGrid.appendChild(card);

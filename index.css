@@ -1136,7 +1136,8 @@ h1, h2, h3, h4, h5, h6 {
 
 .team-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(280px, 350px));
+    justify-content: center;
     gap: 30px;
 }
 
